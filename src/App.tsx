@@ -34,14 +34,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Registration from './pages/Registration';
 
-interface LocationState {
-  from: {
-    pathname:string
-  }
-}
+
 const App: React.FC = () => { 
-  const location = useLocation<LocationState>()
-  const {from} = location.state
   return  <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -52,7 +46,7 @@ const App: React.FC = () => {
           <Route path="/tab4" component={Registration} exact={true} />
           <Route path="/" render={() => <Redirect to="/tab3" />} exact={true} />
         </IonRouterOutlet>
-       {from.pathname==='/tab3' && 
+      
          <IonTabBar slot="bottom">
          <IonTabButton tab="tab1" href="/tab1">
            <IonIcon icon={triangle} />
@@ -70,7 +64,7 @@ const App: React.FC = () => {
            <IonIcon icon={receiptOutline} />
            <IonLabel>Registration</IonLabel>
          </IonTabButton>
-       </IonTabBar>}
+       </IonTabBar>
       </IonTabs>
     </IonReactRouter>
   </IonApp>
