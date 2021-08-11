@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { images, square, triangle, ellipse, phonePortrait, receiptOutline } from 'ionicons/icons';
 import {
   IonApp,
@@ -34,10 +34,15 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Registration from './pages/Registration';
 
-
-const App: React.FC = () => (
-
-  <IonApp>
+interface LocationState {
+  from: {
+    pathname:string
+  }
+}
+const App: React.FC = () => { 
+  const location = useLocation<LocationState>()
+  const {from} = location.state
+  return  <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
@@ -45,28 +50,29 @@ const App: React.FC = () => (
           <Route path="/tab2" component={PhotoPage} exact={true} />
           <Route path="/tab3" component={ChatRoom} />
           <Route path="/tab4" component={Registration} exact={true} />
-          <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+          <Route path="/" render={() => <Redirect to="/tab3" />} exact={true} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
-            <IonLabel>Tab One</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={images} />
-            <IonLabel>Photos</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab Three</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab4" href="/tab4">
-            <IonIcon icon={receiptOutline} />
-            <IonLabel>Registration</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
+       {from.pathname==='/tab3' && 
+         <IonTabBar slot="bottom">
+         <IonTabButton tab="tab1" href="/tab1">
+           <IonIcon icon={triangle} />
+           <IonLabel>Tab One</IonLabel>
+         </IonTabButton>
+         <IonTabButton tab="tab2" href="/tab2">
+           <IonIcon icon={images} />
+           <IonLabel>Photos</IonLabel>
+         </IonTabButton>
+         <IonTabButton tab="tab3" href="/tab3">
+           <IonIcon icon={square} />
+           <IonLabel>Tab Three</IonLabel>
+         </IonTabButton>
+         <IonTabButton tab="tab4" href="/tab4">
+           <IonIcon icon={receiptOutline} />
+           <IonLabel>Registration</IonLabel>
+         </IonTabButton>
+       </IonTabBar>}
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-)
+}
 export default App;
