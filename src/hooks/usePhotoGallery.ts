@@ -35,20 +35,29 @@ export function usePhotoGallery() {
   }, []);
 
   const takePhoto = async () => {
-    const cameraPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-      quality: 100
-    });
-    const fileName = new Date().getTime() + '.jpeg';
+    try{
+      const cameraPhoto = await Camera.getPhoto({
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+        quality: 100
+      });
+      const fileName = new Date().getTime() + '.jpeg';
     const savedFileImage = await savePicture(cameraPhoto, fileName);
     const singlePic = [savedFileImage]
     const newPhotos = [savedFileImage, ...photos];
     setSinglePhoto(singlePic)
     setPhotos(newPhotos);
     Storage.set({key: PHOTO_STORAGE,value: JSON.stringify(newPhotos)});
+    return savedFileImage
+    }
+    catch(err){
+         if(err){
+           console.log(`${err} camera was cancelled`);
+         }
+    }
+    
   };
-
+   
   const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
     let base64Data: string;
     // "hybrid" will detect Cordova or Capacitor;

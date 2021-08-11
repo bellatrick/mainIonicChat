@@ -1,17 +1,19 @@
 import React,{useEffect} from 'react'
 import { usePhotoGallery } from '../hooks/usePhotos';
-
+import {IonRow, IonCol, IonImg} from '@ionic/react'
 const ImageContainer = () => {
     const { deletePhoto, photos, takePhoto, singlePhoto } = usePhotoGallery();
-   useEffect(() => {
-     
-    console.log(singlePhoto)
-    console.log(photos)
-   }, [singlePhoto, photos])
+ 
     return (
         <>
-        <img style={{width:'100px'}} src={singlePhoto.webviewPath} alt='imagetab'/>
-            {photos.map((photo, i)=> <img style={{width:'100px'}} src={photo.webviewPath} key= {i} alt='imagetab'/>)} 
+
+        <IonRow>
+            {photos.map((photo, index) => (
+              <IonCol size="4" key={index}>
+                <IonImg src={photo.webviewPath} />
+              </IonCol>
+            ))}
+         </IonRow>
         </>
     )
 }

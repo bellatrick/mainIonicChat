@@ -7,7 +7,7 @@ import { usePhotoGallery, UserPhoto } from '../hooks/usePhotoGallery';
 const PhotoPage: React.FC = () => {
   const { deletePhoto, photos, takePhoto } = usePhotoGallery();
   const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
-
+  
   return (
     <IonPage>
       <IonHeader>
