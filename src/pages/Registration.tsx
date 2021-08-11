@@ -1,13 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Tab3.css';
-import { usePhotoGallery} from '../hooks/usePhotoGallery';
-import ImageContainer from '../components/imageContainer';
-const Registration: React.FC = () => {
-  const { deletePhoto, photos, takePhoto } = usePhotoGallery();
+import { IonContent, IonPage } from "@ionic/react";
+import "./Tab3.css";
 
+import SignUpForm from "../components/SignUpForm";
+const Registration: React.FC = () => {
   return (
     <IonPage>
-    <ImageContainer/>
+      <SignUpForm />
     </IonPage>
   );
 };
