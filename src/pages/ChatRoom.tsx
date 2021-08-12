@@ -9,20 +9,16 @@ const ChatRoom: React.FC = () => {
       <IonToolbar>
       <IonHeader className="header">
         <IonTitle>ChatRoom</IonTitle>
+
         
       
         {/* <button onClick={() => takePhoto()}>Post a picture</button> */}
+
       </IonHeader>
       </IonToolbar>
       
       <IonContent fullscreen>
         <ChatComponent />
-        {/* <ChatComponent /> */}
-        {/* <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">ChatRoom</IonTitle>
-          </IonToolbar>
-        </IonHeader> */}
       </IonContent>
     </IonPage>
   );

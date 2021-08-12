@@ -11,15 +11,17 @@ import Waiting from "./loadersAndNotifications/Waiting";
 const ChatInput = ({ sendMessage, disableFunctions }) => {
   const [waiting, setWaiting] = useState(false);
   const { takePhoto } = usePhotoGallery();
+  const [inputValue, setInputValue] = useState("");
 
   const history = useHistory();
-  const messageRef = useRef(null);
+  // const messageRef = useRef(null);
+
   const redirectToPhotos = () => {
     history.push("/photos");
   };
   const enableSending = () => {
-    if (!disableFunctions) {
-      sendMessage(message, messageRef);
+    if (disableFunctions === false) {
+      sendMessage(inputValue);
     } else {
       setWaiting(true);
       setTimeout(() => {
@@ -27,7 +29,6 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
       }, 3000);
     }
   };
-  const message = messageRef?.current?.value;
   return (
     <>
       <div className="user-action">
@@ -42,9 +43,14 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           onSubmit={(e) => {
             e.preventDefault();
             enableSending();
+            setInputValue("");
           }}
         >
-          <input ref={messageRef} placeholder="Type your message..." />
+          <input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type your message..."
+          />
           <button className="hidden"></button>
         </form>
         <span
@@ -60,6 +66,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
         className="footer__speaker"
         onClick={() => {
           enableSending();
+          setInputValue("");
         }}
       >
         <IoIcons.IoMdPaperPlane
