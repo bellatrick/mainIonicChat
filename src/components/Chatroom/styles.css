@@ -344,3 +344,31 @@ html {
   display: flex;
   flex-wrap: wrap;
 }
+.moment__user {
+  background: goldenrod;
+  width: fit-content;
+  height: auto;
+  color: darkslategray;
+  position: absolute;
+  top: -20%;
+  left: -30px;
+  font-size: 15px;
+  margin-top: 10px;
+  padding-left:50px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+.moment__others {
+  background: goldenrod;
+  width: fit-content;
+  height: auto;
+  color: darkslategray;
+  position: absolute;
+  top: -20%;
+  right: -30px;
+  font-size: 15px;
+  margin-top: 10px;
+  padding-left:50px;
+  padding-right: 10px;
+  border-radius: 10px;
+}

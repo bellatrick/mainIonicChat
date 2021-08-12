@@ -87,7 +87,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           aria-hidden="true"
         />
       </button>
-      {waiting && <Waiting />}
+      {waiting && <Waiting message = "Please wait..." />}
       {openEmoji && (
         <>
         <div className = "overlay" onClick = {() => setOpenEmoji(false)}></div>

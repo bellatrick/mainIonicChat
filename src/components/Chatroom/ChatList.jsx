@@ -32,14 +32,37 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
           }
           key={i}
         >
-          <div className="moment">
-            {Math.round(Math.abs(dateNow - message.time) / oneDay) === 1 && (
-              <h3>Today</h3>
-            )}
+          <div
+            // className={
+            //   Math.round(Math.abs(dateNow - message.time) / oneDay) === 1
+            //     ? "moment"
+            //     : "hidden"
+            // }
+            // className="moment"
 
-            {Math.round(Math.abs(dateNow - message.time) / twoDays) === 2 && (
-              <h3>Yesterday</h3>
-            )}
+            className={
+              message.imageUrl
+                ? "moment__user"
+                : "hidden"
+            }
+          >
+            <p>Today</p>
+          </div>
+
+          <div
+            // className={
+            //   Math.round(Math.abs(dateNow - message.time) / twoDays) === 2
+            //     ? "moment"
+            //     : "hidden"
+            // }
+
+            className={
+              message.time.slice(16, 21) === "12:18"
+                ? "moment__user"
+                : "hidden"
+            }
+          >
+            <h3>Yesterday</h3>
           </div>
           <p className="messages__users--01-id">{message.name}</p>
           {message.imageUrl && (
@@ -73,3 +96,5 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
 };
 
 export default ChatList;
+
+// {Math.round(Math.abs(dateNow - message.time) / twoDays) <= 2 ? message.time.slice(16, 21) : message.time}
