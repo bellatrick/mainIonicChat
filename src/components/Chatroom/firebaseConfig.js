@@ -11,4 +11,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// const checkUsers = () => {
+//   const listRef = new Firebase(url);
+// };
+
 export const db = firebase.database();

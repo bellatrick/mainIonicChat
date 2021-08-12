@@ -5,6 +5,7 @@ import * as IoIcons from "react-icons/io";
 import * as GoIcons from "react-icons/go";
 import * as FaIcons from "react-icons/fa";
 import { usePhotoGallery } from "../../hooks/usePhotos";
+import { Picker } from "emoji-mart";
 
 import "./styles.css";
 import Waiting from "./loadersAndNotifications/Waiting";
@@ -14,6 +15,8 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
   const { takePhoto } = usePhotoGallery();
   const [inputValue, setInputValue] = useState("");
 
+  const [openEmoji, setOpenEmoji] = useState(false);
+
   const history = useHistory();
 
   const redirectToPhotos = () => {
@@ -22,6 +25,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
   const enableSending = () => {
     if (disableFunctions === false) {
       sendMessage(inputValue);
+      setOpenEmoji(false);
     } else {
       setWaiting(true);
       setTimeout(() => {
@@ -36,6 +40,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           <GoIcons.GoSmiley
             className="fa fa-paperclip icon"
             aria-hidden="true"
+            onClick={() => setOpenEmoji((prev) => !prev)}
           />
         </span>
         <form
@@ -83,6 +88,27 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
         />
       </button>
       {waiting && <Waiting />}
+      {openEmoji && (
+        <>
+        <div className = "overlay" onClick = {() => setOpenEmoji(false)}></div>
+          <Picker
+            title="Pick your emoji…"
+            emoji="point_up"
+            onSelect={(emoji) => {
+              console.log(emoji.native);
+              setInputValue(inputValue + emoji.native);
+            }}
+            style={{
+              position: "absolute",
+              bottom: "50px",
+              left: "20px",
+              width: "300px",
+              height: "300px",
+              background: "white",
+            }}
+          />
+        </>
+      )}
     </>
   );
 };

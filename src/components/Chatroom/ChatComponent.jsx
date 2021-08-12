@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ChatInput from "./ChatInput";
 import ChatBody from "./ChatBody";
 import "./styles.css";
-import { db } from "./firebase";
+// import { db } from "./firebase";
 import { PhotoContext } from "../../contexts/photoContext";
 import Posting from "./Posting";
 

@@ -319,3 +319,28 @@ html {
   width: 350px;
   height: 350px;
 }
+
+/* GLOBAL STYLES (must be applied)*/
+.emoji-mart {
+  display: flex;
+  flex-direction: column;
+}
+.emoji-mart-bar {
+  margin-top: 20px;
+}
+.emoji-mart-preview {
+  display: none;
+}
+.emoji-mart-search label {
+  margin-left: 5px;
+  font-size: 10px;
+}
+.emoji-mart-scroll {
+  padding: 5px 10px;
+  overflow-y: scroll;
+}
+.emoji-mart-category-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
