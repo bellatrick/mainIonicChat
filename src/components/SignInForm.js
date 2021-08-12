@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { IonSpinner } from "@ionic/react";
 import axios from "axios";
 import "./SignInForm.css";
 import { Store } from "../utils/Store";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 // import Cookies from 'js-cookie'
 // const phoneRegex = RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
 
@@ -26,22 +27,46 @@ const SignInForm = () => {
   const history = useHistory();
   const { state, dispatch } = useContext(Store);
   // const { userInfo } = state;
-  const submitForm = async (values) => {
-   try{
-    const {data} = await axios.post('https://anter-chat-app.herokuapp.com/api/v1/users/login', 
-            {
-            
-                "phoneNumber": values.phoneNumber,
-                "password": values.password
-            }
-        )
-      dispatch({ action: "LOGIN", payload: data });
-     
-      console.log(data.data);
-   }
-   catch(err){
-       console.log(err.message);
-   }
+  const [loading, setLoading] = useState(false);
+const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'', GeneralErr:''})
+  const [error, setError] = useState(false);
+  const submitForm = async (phoneNumber, password) => {
+    try {
+    if(password===''){
+      setErrorMessage({...errorMessage, passwordErr:'Password must not be empty'})
+    }
+    else if(phoneNumber===''){
+      setErrorMessage({...errorMessage, passwordErr:'Phone number must not be empty'})
+    }
+    else{
+      setErrorMessage({...errorMessage, GeneralErr:'Invalid credentials'})
+    }
+    setLoading(true);
+       const data = {
+         phoneNumber, password
+       }
+       dispatch({ action: "LOGIN", payload: data });
+      setErrorMessage(null)
+      // const { data } = await axios.post(
+      //   "https://anter-chat-app.herokuapp.com/api/v1/users/login",
+      //   {
+      //     "phoneNumber": phoneNumber,
+      //     "password": password
+      //   }
+      // );
+      // if (data.user) {
+      //   history.push('/chats')
+      //   //  data && Cookies.set('userInfo', data.user);
+      // 
+      // }
+
+      // console.log(data.user);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+      console.log(err.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -49,10 +74,8 @@ const SignInForm = () => {
       initialValues={initialValues}
       validationSchema={signInSchema}
       onSubmit={(values) => {
-        submitForm(values);
-        console.log(
-          `Name: ${values.name} Phone Number: ${values.phoneNumber} Password: ${values.password}`
-        );
+        submitForm(values.phoneNumber, values.password);
+        console.log(values.password, values.phoneNumber);
       }}
     >
       {(formik) => {
@@ -60,6 +83,17 @@ const SignInForm = () => {
         return (
           <div className="formSec">
             <h1>Sign in to continue</h1>
+            {error &&  <h3>Invalid credentials</h3>}
+
+            {/* {error && Object.keys(errorMessage).length > 0 &&<div className=" error-message">
+          <ul className="list">
+          {Object.keys(errorMessage).length > 0 &&
+            Object.values(errorMessage).map((value) =>(
+                <li key={value}>{value}</li>
+            )
+            )}
+        </ul>
+      </div>} */}
             <Form className="signUp signIn">
               <div className="form-row">
                 <label htmlFor="phoneNumber">Phone Number</label>
@@ -67,7 +101,7 @@ const SignInForm = () => {
                   type="phoneNumber"
                   name="phoneNumber"
                   id="phoneNumber"
-                  placeHolder='Phone Number'
+                  placeholder="Phone Number"
                   className={
                     errors.phoneNumber && touched.phoneNumber
                       ? "input-error"
@@ -87,7 +121,7 @@ const SignInForm = () => {
                   type="password"
                   name="password"
                   id="password"
-                  placeHolder= 'Password'
+                  placeholder="Password"
                   className={
                     errors.password && touched.password ? "input-error" : null
                   }
@@ -105,11 +139,17 @@ const SignInForm = () => {
                 disabled={!(dirty && isValid)}
               >
                 Sign In
+                {loading && <IonSpinner name="bubbles" />}
               </button>
+
+              <p className="option-text">
+              Don't have an account?{" "}
+              <Link className="option-text__link" to="/register">
+                <i>Sign up</i>
+              </Link>
+            </p>
             </Form>
-            {/* <p class="option-text">
-                            Don't have an account? <Link className={classes["option-text__link"]} to="/register"><i>Sign up</i></Link>
-                        </p> */}
+          
           </div>
         );
       }}

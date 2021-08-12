@@ -26,6 +26,7 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
     "cookies": "^0.8.0",
+    "firebase": "^8.9.1",
     "formik": "^2.2.9",
     "ionicons": "^5.4.0",
     "js-cookie": "^3.0.0",

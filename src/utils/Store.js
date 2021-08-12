@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 export const Store = createContext()
 
 const initialState = {
-     user: Cookies.get('userInfo')? JSON.parse(Cookies.get('userInfo')):null
+     user: {}
    
 }
 function reducer (state,action){
