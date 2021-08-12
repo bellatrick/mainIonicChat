@@ -9,7 +9,7 @@ const ChatBody = ({
   loadedMessages,
   setLoadedMessages,
   disableFunctions,
-  setDisableFunctions,
+  setdisableFunctions,
 }) => {
   const messageEndRef = useRef(null);
 
@@ -21,6 +21,7 @@ const ChatBody = ({
   });
 
   useEffect(() => {
+    console.log("fetching");
     const fetchMessages = () => {
       fetch(
         "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
@@ -32,7 +33,8 @@ const ChatBody = ({
           messagesIDs.forEach((message, index) => {
             messagesArr.push(messages[message]);
             setLoadedMessages([...messagesArr]);
-            setDisableFunctions(false);
+            console.log("fetched");
+            setdisableFunctions(false);
             scrollToBottom();
           });
         });
