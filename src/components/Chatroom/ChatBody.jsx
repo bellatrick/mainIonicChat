@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as GiIcons from "react-icons/gi";
 import "./styles.css";
-import { IonImg } from "@ionic/react";
-// import { db } from "./firebaseConfig";
+import { db } from "./firebase";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
@@ -45,19 +43,17 @@ const ChatBody = ({
         const messagesIDs = Object.keys(messages);
         messagesIDs.forEach((message, index) => {
           messagesArr.push(messages[message]);
-
-          messagesArr.map((item) => {
-            return {
-              name: item.name,
-              message: item.message,
-              time: new Date(new Date().toLocaleString) - new Date(new Date(item.time).toLocaleString()) > 2 ? `${item.time.toLocaleDateString().slice(0, 9)} ${dateFormat(item.time)}` : dateFormat(item.time)
-            }
-          })
           setLoadedMessages([...messagesArr]);
-          console.log(loadedMessages)
           setdisableFunctions(false);
           scrollToBottom();
         });
+        messagesArr.map((item) => {
+          return {
+            name: item.name,
+            message: item.message,
+            time: new Date(new Date().toLocaleString) - new Date(new Date(item.time).toLocaleString()) > 2 ? `${item.time.toLocaleDateString().slice(0, 9)} ${dateFormat(item.time)}` : dateFormat(item.time)
+          }
+        })
       }).catch(err => { setFailedToLoad(true) });
   };
   useEffect(() => {
@@ -66,15 +62,15 @@ const ChatBody = ({
 
   useEffect(() => {
     if (setScroll) scrollToBottom();
-    //   db.ref("messages").on("value", (snapshot) => {
-    //     let messagesArr = [];
-    //     snapshot.forEach((snap) => {
-    //       messagesArr.push(snap.val());
-    //       setLoadedMessages([...messagesArr]);
-    //       setdisableFunctions(false);
-    //     });
-    //     scrollToBottom();
-    //   });
+    db.ref("messages").on("value", (snapshot) => {
+      let messagesArr = [];
+      snapshot.forEach((snap) => {
+        messagesArr.push(snap.val());
+        setLoadedMessages([...messagesArr]);
+        setdisableFunctions(false);
+      });
+      scrollToBottom();
+    });
   });
   const filteredMessages =
     loadedMessages.length !== 0
