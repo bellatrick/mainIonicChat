@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as GiIcons from "react-icons/gi";
 import "./styles.css";
 import { IonImg } from "@ionic/react";
 import { db } from "./firebase";
 import Spinner from "./loadersAndNotifications/Spinner";
+import Preview from "../ImagePreview";
 
 const ChatBody = ({
   loadedMessages,
@@ -13,9 +14,21 @@ const ChatBody = ({
   setScroll,
 }) => {
   const messageEndRef = useRef(null);
+  const [viewPic, setViewPic] = useState(false);
+  const [pic, setPic] = useState(null);
 
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView();
+  };
+
+  const viewPicHandler = (url) => {
+    setViewPic(true);
+    setPic(url);
+    console.log(url);
+  };
+  const nodisplay = () => {
+    setViewPic(false);
+    setPic(null);
   };
 
   useEffect(() => {
@@ -45,7 +58,6 @@ const ChatBody = ({
       snapshot.forEach((snap) => {
         messagesArr.push(snap.val());
         setLoadedMessages([...messagesArr]);
-        console.log("fetched");
         setdisableFunctions(false);
       });
       scrollToBottom();
@@ -69,6 +81,11 @@ const ChatBody = ({
             key={i}
           >
             <p className="messages__users--01-id">{message.name}</p>
+            {message.imageUrl && (
+              <span onClick={() => viewPicHandler(message.imageUrl)}>
+                <IonImg src={message.imageUrl} />
+              </span>
+            )}
             <p className="messages__users--01-content">{message.message}</p>
             <div className="messages__user-status user-callout">
               <p className="messages__user-status--time2">
@@ -82,18 +99,14 @@ const ChatBody = ({
                 </>
               )}
             </div>
-
-            {message.imageUrl && (
-              <span>
-                <IonImg src={message.imageUrl} />
-              </span>
-            )}
           </div>
         ))}
       <div
         ref={messageEndRef}
         style={{ background: "transparent", height: "10px" }}
       ></div>
+
+      {viewPic && <Preview image={pic} nodisplay={nodisplay} />}
     </div>
   );
 };

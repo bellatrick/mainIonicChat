@@ -9,14 +9,13 @@ const PhotoProvider = ({ children }) => {
 
   const postPhoto = (photo) => {
     setPhotoToPost(photo.webviewPath);
-    console.log(photo.webviewPath);
     history.push("/chatroom");
   };
 
   const value = {
     photoToPost: photoToPost,
     postPhoto: postPhoto,
-    setPhotoToPost : setPhotoToPost
+    setPhotoToPost: setPhotoToPost,
   };
   return (
     <PhotoContext.Provider value={value}>{children}</PhotoContext.Provider>

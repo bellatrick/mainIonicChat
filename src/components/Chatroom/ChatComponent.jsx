@@ -64,7 +64,14 @@ const ChatComponent = () => {
           disableFunctions={disableFunctions}
         />
       </div>
-      {photoToPost && <Posting photo={photoToPost} closePost={closePost} />}
+      {photoToPost && (
+        <Posting
+          photo={photoToPost}
+          closePost={closePost}
+          loadedMessages={loadedMessages}
+          setLoadedMessages={setLoadedMessages}
+        />
+      )}
     </div>
   );
 };

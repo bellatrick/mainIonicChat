@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as MdIcons from "react-icons/md";
 import * as IoIcons from "react-icons/io";
 import * as GoIcons from "react-icons/go";
+import * as FaIcons from "react-icons/fa";
 import { usePhotoGallery } from "../../hooks/usePhotos";
 
 import "./styles.css";
@@ -14,7 +15,6 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
   const [inputValue, setInputValue] = useState("");
 
   const history = useHistory();
-  // const messageRef = useRef(null);
 
   const redirectToPhotos = () => {
     history.push("/photos");
@@ -53,6 +53,14 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           />
           <button className="hidden"></button>
         </form>
+        <span
+          className="footer__photo"
+          onClick={() => {
+            if (!disableFunctions) redirectToPhotos();
+          }}
+        >
+          <FaIcons.FaPaperclip />
+        </span>
         <span
           className="footer__photo"
           onClick={() => {

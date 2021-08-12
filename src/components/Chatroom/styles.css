@@ -302,3 +302,20 @@ html {
 .post__close {
   font-size: large;
 }
+.preview__modal {
+  background-color: #e8e6e4;
+  color: black;
+  padding: 10px 20px;
+  height: auto;
+  width: auto;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  font-size: 1.3rem;
+}
+.preview__image__div {
+  width: 350px;
+  height: 350px;
+}

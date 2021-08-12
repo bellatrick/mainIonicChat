@@ -6,7 +6,7 @@ import { IonImg } from "@ionic/react";
 import * as AiIcons from "react-icons/ai";
 import Notification from "./loadersAndNotifications/Notification";
 
-const Posting = ({ photo, closePost }) => {
+const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
   const [isPosting, setIsPosting] = useState(true);
   const { setPhotoToPost } = useContext(PhotoContext);
   const captionRef = useRef(null);
@@ -14,6 +14,7 @@ const Posting = ({ photo, closePost }) => {
   const nodisplay = () => {
     setIsPosting(true);
   };
+
   const submitPost = (e) => {
     e.preventDefault();
     setIsPosting(true);
@@ -25,7 +26,7 @@ const Posting = ({ photo, closePost }) => {
       time: time,
       imageUrl: photo,
     };
-
+    setLoadedMessages([...loadedMessages, messageObject]);
     fetch(
       "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
       {
@@ -56,13 +57,10 @@ const Posting = ({ photo, closePost }) => {
         <div className="post__form">
           <form onSubmit={submitPost}>
             <input placeholder="Say something..." ref={captionRef} />
-            <button className="post__button">Post</button>
+            <button className="post__button" onClick={submitPost}>
+              Post
+            </button>
           </form>
-
-          {/* <button type="button" className="button__upload">
-              uploading
-              <div className="button__progress"></div>
-            </button> */}
         </div>
         {!isPosting && (
           <Notification
