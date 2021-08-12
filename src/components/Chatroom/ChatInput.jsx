@@ -40,7 +40,10 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           <GoIcons.GoSmiley
             className="fa fa-paperclip icon"
             aria-hidden="true"
-            onClick={() => setOpenEmoji((prev) => !prev)}
+            onClick={() => {
+              if (!disableFunctions) setOpenEmoji((prev) => !prev)
+            }
+            }
           />
         </span>
         <form
@@ -87,10 +90,10 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           aria-hidden="true"
         />
       </button>
-      {waiting && <Waiting message = "Please wait..." />}
+      {waiting && <Waiting message="Please wait..." />}
       {openEmoji && (
         <>
-        <div className = "overlay" onClick = {() => setOpenEmoji(false)}></div>
+          <div className="overlay" onClick={() => setOpenEmoji(false)}></div>
           <Picker
             title="Pick your emoji…"
             emoji="point_up"
