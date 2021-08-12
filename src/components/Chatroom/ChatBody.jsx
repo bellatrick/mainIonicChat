@@ -10,18 +10,15 @@ const ChatBody = ({
   setLoadedMessages,
   disableFunctions,
   setdisableFunctions,
+  setScroll,
 }) => {
   const messageEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView();
   };
-  const filteredMessages = loadedMessages.sort(function (a, b) {
-    return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
-  });
 
   useEffect(() => {
-    console.log("fetching");
     const fetchMessages = () => {
       fetch(
         "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
@@ -33,7 +30,6 @@ const ChatBody = ({
           messagesIDs.forEach((message, index) => {
             messagesArr.push(messages[message]);
             setLoadedMessages([...messagesArr]);
-            console.log("fetched");
             setdisableFunctions(false);
             scrollToBottom();
           });
@@ -43,16 +39,21 @@ const ChatBody = ({
   }, []);
 
   useEffect(() => {
+    if (setScroll) scrollToBottom();
     db.ref("messages").on("value", (snapshot) => {
       let messagesArr = [];
       snapshot.forEach((snap) => {
         messagesArr.push(snap.val());
         setLoadedMessages([...messagesArr]);
+        console.log("fetched");
+        setdisableFunctions(false);
       });
       scrollToBottom();
     });
   });
-
+  const filteredMessages = loadedMessages.sort(function (a, b) {
+    return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
+  });
   return (
     <div>
       {disableFunctions && <Spinner message="Loading chats..." />}
@@ -69,8 +70,8 @@ const ChatBody = ({
           >
             <p className="messages__users--01-id">{message.name}</p>
             <p className="messages__users--01-content">{message.message}</p>
-            <div class="messages__user-status user-callout">
-              <p class="messages__user-status--time2">
+            <div className="messages__user-status user-callout">
+              <p className="messages__user-status--time2">
                 {message.time.slice(16, 21)}
               </p>
 

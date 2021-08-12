@@ -6,11 +6,9 @@ import { db } from "./firebase";
 import { PhotoContext } from "../../contexts/photoContext";
 import Posting from "./Posting";
 
-const pushNewMessage = async (object) => {
-  await db.ref("messages").push(object);
-};
 const ChatComponent = () => {
   const [loadedMessages, setLoadedMessages] = useState([]);
+  const [scroll, setScroll] = useState(false);
   const [disableFunctions, setdisableFunctions] = useState(true);
   const { photoToPost, setPhotoToPost } = useContext(PhotoContext);
 
@@ -18,8 +16,11 @@ const ChatComponent = () => {
     setPhotoToPost(null);
   };
 
-  const sendMessage = (message, ref) => {
-    if (message?.trim() === "") return;
+  const sendMessage = (message) => {
+    if (message.trim() === "") {
+      console.log("empty");
+      return;
+    }
     const time = Date();
 
     const messageObject = {
@@ -27,11 +28,23 @@ const ChatComponent = () => {
       message: message,
       time: time,
     };
-    if (disableFunctions) return;
     setLoadedMessages([...loadedMessages, messageObject]);
-
-    ref.current.value = "";
-    pushNewMessage(messageObject);
+    setScroll(true);
+    const pushNewMessage = () => {
+      fetch(
+        "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
+        {
+          method: "POST",
+          body: JSON.stringify(messageObject),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then(function (response) {})
+        .catch((error) => console.log(error));
+    };
+    pushNewMessage();
   };
 
   return (
@@ -42,6 +55,7 @@ const ChatComponent = () => {
           setLoadedMessages={setLoadedMessages}
           disableFunctions={disableFunctions}
           setdisableFunctions={setdisableFunctions}
+          setScroll={setScroll}
         />
       </div>
       <div className="footer">
