@@ -1,27 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab3.css';
-import { usePhotoGallery} from '../hooks/usePhotos';
-import ImageContainer from '../components/imageContainer';
-const ChatRoom: React.FC = () => {
-  const { deletePhoto, photos, takePhoto, singlePhoto } = usePhotoGallery();
+import { IonContent, IonHeader, IonPage, IonTitle } from "@ionic/react";
 
+import "../components/Chatroom/styles.css";
+import ChatComponent from "../components/Chatroom/ChatComponent";
+
+const ChatRoom: React.FC = () => {
   return (
     <IonPage>
-    <IonHeader>
-      <IonToolbar>
+      <IonHeader className="header">
         <IonTitle>ChatRoom</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent fullscreen>
-      <IonHeader collapse="condense">
-        <IonToolbar>
-          <IonTitle size="large">ChatRoom</IonTitle>
-        </IonToolbar>
+        {/* <button onClick={() => takePhoto()}>Post a picture</button> */}
       </IonHeader>
-      <ExploreContainer name="Tab 1 page" />
-    </IonContent>
-  </IonPage>
+      <IonContent fullscreen>
+        <ChatComponent />
+        {/* <ChatComponent /> */}
+        {/* <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">ChatRoom</IonTitle>
+          </IonToolbar>
+        </IonHeader> */}
+      </IonContent>
+    </IonPage>
   );
 };
 

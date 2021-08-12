@@ -1,12 +1,27 @@
-
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon, IonGrid, IonRow, IonCol, IonImg, IonActionSheet } from '@ionic/react';
-import { camera, trash, close } from 'ionicons/icons';
-import { usePhotoGallery, UserPhoto } from '../hooks/usePhotoGallery';
+import React, { useState, useContext } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonImg,
+  IonActionSheet,
+} from "@ionic/react";
+import { camera, trash, close } from "ionicons/icons";
+import { usePhotoGallery, UserPhoto } from "../hooks/usePhotoGallery";
+import { PhotoContext } from "../contexts/photoContext";
 
 const PhotoPage: React.FC = () => {
   const { deletePhoto, photos, takePhoto } = usePhotoGallery();
   const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
+  const { postPhoto } = useContext(PhotoContext);
 
   return (
     <IonPage>
@@ -16,7 +31,7 @@ const PhotoPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <IonHeader collapse="condense">
+        <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Photo Gallery</IonTitle>
           </IonToolbar>
@@ -25,7 +40,14 @@ const PhotoPage: React.FC = () => {
           <IonRow>
             {photos.map((photo, index) => (
               <IonCol size="6" key={index}>
-                <IonImg onClick={() => setPhotoToDelete(photo)} src={photo.webviewPath} />
+                <IonImg
+                  onClick={() => postPhoto(photo)}
+                  src={photo.webviewPath}
+                />
+                <IonIcon
+                  onClick={() => setPhotoToDelete(photo)}
+                  icon={trash}
+                ></IonIcon>
               </IonCol>
             ))}
           </IonRow>
@@ -39,25 +61,26 @@ const PhotoPage: React.FC = () => {
 
         <IonActionSheet
           isOpen={!!photoToDelete}
-          buttons={[{
-            text: 'Delete',
-            role: 'destructive',
-            icon: trash,
-            handler: () => {
-              if (photoToDelete) {
-                deletePhoto(photoToDelete);
-                setPhotoToDelete(undefined);
-              }
-            }
-          }, {
-            text: 'Cancel',
-            icon: close,
-            role: 'cancel'
-          }]}
+          buttons={[
+            {
+              text: "Delete",
+              role: "destructive",
+              icon: trash,
+              handler: () => {
+                if (photoToDelete) {
+                  deletePhoto(photoToDelete);
+                  setPhotoToDelete(undefined);
+                }
+              },
+            },
+            {
+              text: "Cancel",
+              icon: close,
+              role: "cancel",
+            },
+          ]}
           onDidDismiss={() => setPhotoToDelete(undefined)}
         />
-
-
       </IonContent>
     </IonPage>
   );
