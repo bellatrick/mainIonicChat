@@ -1,0 +1,26 @@
+.waiting__modal {
+  background: lightgray;
+  color: #18c918;
+  padding: 10px 20px;
+  height: auto;
+  width: auto;
+  border-radius: 2px;
+  position: fixed;
+  transform: translate(-50%, 0%);
+  top: 1%;
+  left: 50%;
+  z-index: 9999;
+  font-size: 1.3rem;
+  animation: sliding 2s;
+}
+@keyframes sliding {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: 0.4%;
+  }
+  100% {
+    top: 1%;
+  }
+}

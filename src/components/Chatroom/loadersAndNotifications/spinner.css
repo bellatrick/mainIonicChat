@@ -1,0 +1,22 @@
+.modal__spinner {
+  display: flex;
+  justify-content: center;
+}
+.full__height {
+  align-items: center;
+  height: 100%;
+}
+.modal__spinner::after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 10px solid #dddddd;
+  border-top-color: #18c918;
+  animation: loading 1s ease infinite;
+}
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
+}
