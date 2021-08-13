@@ -35,35 +35,48 @@ const initialValues = {
 };
 
 const SignUpForm = () => {
+  let errorMessage;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState(false);
-  const submitHandler = async (name, password, phoneNumber) => {
+  const [error, setError] = useState("");
+  const submitHandler = (name, password, phoneNumber) => {
     setLoading(true);
-    // const requestOptions = {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({username:name, phoneNumber,password})
-    // }
-    try {
-    //   const { data } = await axios.post(
-    //     "https://anter-chat-app.herokuapp.com/api/v1/users/signup",
-    //     {
-    //       username: name,
-    //       phoneNumber: phoneNumber,
-    //       password: password,
-    //     }
-    //   );
+    setError("");
+    fetch("https://anter-chat-app.herokuapp.com/api/v1/users/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        username: name,
+        phoneNumber: phoneNumber,
+        password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setLoading(false);
+        if (res.ok) {
+          console.log(res);
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            console.log(data);
 
-     // console.log(data);
-      history.replace("/verify");
-    } catch (err) {
-      console.log(err);
-      setError(true);
-      setLoading(false);
-    }
-    setLoading(false);
+            setError("Slow network! Please try again");
+
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        history.replace("/verify");
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setError("Slow network! Please try again");
+      });
   };
   return (
     <Formik
@@ -79,7 +92,7 @@ const SignUpForm = () => {
         return (
           <div className="formSec">
             <h1>Create an account</h1>
-            {error && <h3>Invalid credentials</h3>}
+            {<h3>{error}</h3>}
             <Form className="signUp">
               <div className="form-row">
                 <label htmlFor="fullName">Name</label>
@@ -154,10 +167,9 @@ const SignUpForm = () => {
               <button
                 type="submit"
                 className={!(dirty && isValid) ? "disabled-btn btn" : "btn"}
-                disabled={!(dirty && isValid)}
+                // disabled={!(dirty && isValid)}
               >
-                Register
-                {loading && <IonSpinner name="bubbles" />}
+                Register {loading && <IonSpinner name="bubbles" />}
               </button>
             </Form>
             {/* <p class="option-text">
