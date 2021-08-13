@@ -5,7 +5,7 @@ import ChatRoom from "./pages/ChatRoom";
 import PhotoPage from "./pages/PhotoPage";
 import LoginPage from "./pages/LoginPage";
 import { useContext } from "react";
-import { images, square, person } from "ionicons/icons";
+import { images, person } from "ionicons/icons";
 import {
   IonIcon,
   IonLabel,
@@ -38,8 +38,7 @@ import Registration from "./pages/Registration";
 import Verification from "./pages/Verification";
 import PhotoProvider from "./contexts/photoContext";
 const App: React.FC = () => {
-  const { state } = useContext(Store);
-  const { user } = state;
+
 
   return (
     <IonApp>
@@ -58,20 +57,6 @@ const App: React.FC = () => {
               exact={true}     
             />  
           </IonRouterOutlet>
-         {user.phoneNumber && 
-           <IonTabs>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="gallery" href="/gallery">
-              <IonIcon icon={images} />
-             <IonLabel>Gallery</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="Chats" href="/chats">
-              <IonIcon icon={person} />
-              <IonLabel>Chat Room</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-          </IonTabs>}
-     
       </IonReactRouter>
     </IonApp>
   );

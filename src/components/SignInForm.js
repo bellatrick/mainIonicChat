@@ -23,50 +23,57 @@ const initialValues = {
   phoneNumber: "",
   password: "",
 };
+let errorMessage = "";
 const SignInForm = () => {
   const history = useHistory();
   const { state, dispatch } = useContext(Store);
   // const { userInfo } = state;
   const [loading, setLoading] = useState(false);
-const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'', GeneralErr:''})
-  const [error, setError] = useState(false);
+  //const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'', GeneralErr:''})
+  const [error, setError] = useState("");
   const submitForm = async (phoneNumber, password) => {
-    try {
-    if(password===''){
-      setErrorMessage({...errorMessage, passwordErr:'Password must not be empty'})
-    }
-    else if(phoneNumber===''){
-      setErrorMessage({...errorMessage, passwordErr:'Phone number must not be empty'})
-    }
-    else{
-      setErrorMessage({...errorMessage, GeneralErr:'Invalid credentials'})
-    }
     setLoading(true);
-       const data = {
-         phoneNumber, password
-       }
-       dispatch({ action: "LOGIN", payload: data });
-      setErrorMessage(null)
-      // const { data } = await axios.post(
-      //   "https://anter-chat-app.herokuapp.com/api/v1/users/login",
-      //   {
-      //     "phoneNumber": phoneNumber,
-      //     "password": password
-      //   }
-      // );
-      // if (data.user) {
-      //   history.push('/chats')
-      //   //  data && Cookies.set('userInfo', data.user);
-      // 
-      // }
+    setError("");
+    // const data = {
+    //   phoneNumber,
+    //   password,
+    // };
+    fetch("https://anter-chat-app.herokuapp.com/api/v1/users/login", {
+      method: "POST",
+      body: JSON.stringify({
+        phoneNumber: phoneNumber,
+        password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.statusText === "Unauthorized") {
+          setError("Your account has not been verified");
+        }
+        console.log(res);
+        setLoading(false);
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            setError(data.message);
+            throw new Error(error);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        dispatch({ action: "LOGIN", payload: data });
+        history.replace("/chats");
+      })
+      .catch((err) => {
+        console.log(err);
 
-      // console.log(data.user);
-    } catch (err) {
-      setError(true);
-      setLoading(false);
-      console.log(err.message);
-    }
-    setLoading(false);
+        setLoading(false);
+      });
+   
   };
 
   return (
@@ -83,17 +90,8 @@ const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'',
         return (
           <div className="formSec">
             <h1>Sign in to continue</h1>
-            {error &&  <h3>Invalid credentials</h3>}
+            <h3>{error}</h3>
 
-            {/* {error && Object.keys(errorMessage).length > 0 &&<div className=" error-message">
-          <ul className="list">
-          {Object.keys(errorMessage).length > 0 &&
-            Object.values(errorMessage).map((value) =>(
-                <li key={value}>{value}</li>
-            )
-            )}
-        </ul>
-      </div>} */}
             <Form className="signUp signIn">
               <div className="form-row">
                 <label htmlFor="phoneNumber">Phone Number</label>
@@ -105,7 +103,7 @@ const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'',
                   className={
                     errors.phoneNumber && touched.phoneNumber
                       ? "input-error"
-                      : null
+                      : ""
                   }
                 />
                 <ErrorMessage
@@ -123,7 +121,7 @@ const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'',
                   id="password"
                   placeholder="Password"
                   className={
-                    errors.password && touched.password ? "input-error" : null
+                    errors.password && touched.password ? "input-error" : ""
                   }
                 />
                 <ErrorMessage
@@ -136,20 +134,19 @@ const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'',
               <button
                 type="submit"
                 className={!(dirty && isValid) ? "disabled-btn btn" : "btn"}
-                disabled={!(dirty && isValid)}
+                // disabled={!(dirty && isValid)}
               >
                 Sign In
                 {loading && <IonSpinner name="bubbles" />}
               </button>
 
               <p className="option-text">
-              Don't have an account?{" "}
-              <Link className="option-text__link" to="/register">
-                <i>Sign up</i>
-              </Link>
-            </p>
+                Don't have an account?{" "}
+                <Link className="option-text__link" to="/register">
+                  <i>Sign up</i>
+                </Link>
+              </p>
             </Form>
-          
           </div>
         );
       }}

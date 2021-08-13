@@ -40,7 +40,7 @@ const ChatBody = ({
         });
     };
     fetchMessages();
-  }, []);
+  }, [setLoadedMessages, setdisableFunctions]);
 
   useEffect(() => {
     db.ref("messages").on("value", (snapshot) => {
@@ -69,8 +69,8 @@ const ChatBody = ({
           >
             <p className="messages__users--01-id">{message.name}</p>
             <p className="messages__users--01-content">{message.message}</p>
-            <div class="messages__user-status user-callout">
-              <p class="messages__user-status--time2">
+            <div className="messages__user-status user-callout">
+              <p className="messages__user-status--time2">
                 {message.time.slice(16, 21)}
               </p>
 
