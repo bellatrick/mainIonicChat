@@ -14,6 +14,7 @@ const ChatRoom: React.FC = () => {
       <IonToolbar>
       <IonHeader className="header">
         <IonTitle>ChatRoom</IonTitle>
+
         <div className='chat-aside'>
         <Button onClick={()=> history.replace('/gallery')}>Gallery</Button>
         <Button onClick={()=> {
@@ -21,13 +22,15 @@ const ChatRoom: React.FC = () => {
           dispatch({type:'LOGOUT'})}}>Logout</Button>
         </div>
        
+
         {/* <button onClick={() => takePhoto()}>Post a picture</button> */}
+
       </IonHeader>
       </IonToolbar>
       
       <IonContent fullscreen>
         <ChatComponent />
-     
+
       </IonContent>
     </IonPage>
   );

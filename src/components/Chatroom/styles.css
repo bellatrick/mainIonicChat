@@ -82,11 +82,29 @@ html {
 .messages__users--00,
 .messages__users--01 {
   position: relative;
-  margin: 1rem 5rem 3rem 0.2rem;
+  margin: 1rem 5rem 3rem 1rem;
   padding-bottom: 1.5rem;
   border-radius: 1rem;
   background-color: #fff;
   box-shadow: 0 0 10px #c1c1c1;
+  max-width: 300px;
+  margin-right: auto;
+  padding: 15px;
+  width: fit-content;
+}
+.messages__user {
+  position: relative;
+  width: fit-content;
+  margin: 2rem 5rem 1rem 0.2rem;
+  margin-left: auto;
+  /* padding: 0.8rem; */
+  padding: 15px;
+  padding-right: 10rem;
+  padding-bottom: 2rem;
+  border-radius: 1rem 1rem 1rem 1rem;
+  background-color: #18c918;
+  box-shadow: 0 0 10px #c1c1c1;
+  line-height: 1.7;
   max-width: 300px;
 }
 .messages .callout:before {
@@ -120,21 +138,7 @@ html {
   font-weight: 700;
   font-size: 0.5rem;
 }
-.messages__user {
-  position: relative;
-  width: fit-content;
-  margin: 2rem 5rem 1rem 0.2rem;
-  margin-left: auto;
-  /* padding: 0.8rem; */
-  padding: 15px;
-  padding-right: 10rem;
-  padding-bottom: 2rem;
-  border-radius: 1rem 1rem 1rem 1rem;
-  background-color: #18c918;
-  box-shadow: 0 0 10px #c1c1c1;
-  line-height: 1.7;
-  max-width: 300px;
-}
+
 .messages__user .user-callout:before {
   content: "";
   position: absolute;
@@ -151,12 +155,13 @@ html {
   right: 2rem;
   display: flex;
   align-items: center;
-  color: white;
+  color: darkslategray;
 }
 .messages__user-status [class$="time2"] {
   font-weight: 400;
   padding-right: 0.5rem;
   font-size: 1rem;
+  color: darkslategray;
 }
 .messages__user-status .fa-check {
   font-size: 1rem;
@@ -291,6 +296,7 @@ html {
   width: 50px;
   height: 50px;
   padding: 2px;
+
   border-radius: 20% 50% 50% 2%;
 }
 .post__close {
