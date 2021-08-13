@@ -372,3 +372,6 @@ html {
   padding-right: 10px;
   border-radius: 10px;
 }
+.cursor {
+  cursor:pointer
+}

@@ -5,6 +5,9 @@ import "./styles.css";
 // import { db } from "./firebase";
 import { PhotoContext } from "../../contexts/photoContext";
 import Posting from "./Posting";
+import { StoreProvider } from "../../utils/Store";
+import {timeFormat} from "./TimeFormats"
+
 
 const ChatComponent = () => {
   const [loadedMessages, setLoadedMessages] = useState([]);
@@ -21,14 +24,18 @@ const ChatComponent = () => {
       console.log("empty");
       return;
     }
-    const time = Date();
+    const time = new Date();
 
     const messageObject = {
       name: "naphee",
       message: message,
       time: time,
     };
-    setLoadedMessages([...loadedMessages, messageObject]);
+    setLoadedMessages([...loadedMessages, {
+      name: "naphee",
+      message: message,
+      time:timeFormat(time)
+    }]);
     setScroll(true);
     const pushNewMessage = () => {
       fetch(
@@ -41,38 +48,40 @@ const ChatComponent = () => {
           },
         }
       )
-        .then(function (response) {})
+        .then(function (response) { })
         .catch((error) => console.log(error));
     };
     pushNewMessage();
   };
 
   return (
-    <div className="wrapper">
-      <div className="messages">
-        <ChatBody
-          loadedMessages={loadedMessages}
-          setLoadedMessages={setLoadedMessages}
-          disableFunctions={disableFunctions}
-          setdisableFunctions={setdisableFunctions}
-          setScroll={setScroll}
-        />
+    <StoreProvider>
+      <div className="wrapper">
+        <div className="messages">
+          <ChatBody
+            loadedMessages={loadedMessages}
+            setLoadedMessages={setLoadedMessages}
+            disableFunctions={disableFunctions}
+            setdisableFunctions={setdisableFunctions}
+            setScroll={setScroll}
+          />
+        </div>
+        <div className="footer">
+          <ChatInput
+            sendMessage={sendMessage}
+            disableFunctions={disableFunctions}
+          />
+        </div>
+        {photoToPost && (
+          <Posting
+            photo={photoToPost}
+            closePost={closePost}
+            loadedMessages={loadedMessages}
+            setLoadedMessages={setLoadedMessages}
+          />
+        )}
       </div>
-      <div className="footer">
-        <ChatInput
-          sendMessage={sendMessage}
-          disableFunctions={disableFunctions}
-        />
-      </div>
-      {photoToPost && (
-        <Posting
-          photo={photoToPost}
-          closePost={closePost}
-          loadedMessages={loadedMessages}
-          setLoadedMessages={setLoadedMessages}
-        />
-      )}
-    </div>
+    </StoreProvider>
   );
 };
 

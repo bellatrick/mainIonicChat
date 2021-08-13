@@ -4,10 +4,12 @@ import * as GiIcons from "react-icons/gi";
 import "./styles.css";
 import { IonImg } from "@ionic/react";
 import Preview from "../ImagePreview";
+import { Store } from "../../utils/Store";
 
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
+  const { state } = useContext(Store)
 
   const viewPicHandler = (url) => {
     setViewPic(true);
@@ -28,10 +30,9 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
           }
           key={i}
         >
-
           <p className="messages__users--01-id">{message.name}</p>
           {message.imageUrl && (
-            <span onClick={() => viewPicHandler(message.imageUrl)}>
+            <span onClick={() => viewPicHandler(message.imageUrl)} className = "cursor">
               <IonImg src={message.imageUrl} />
             </span>
           )}
@@ -62,4 +63,3 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
 
 export default ChatList;
 
-// {Math.round(Math.abs(dateNow - message.time) / twoDays) <= 2 ? message.time.slice(16, 21) : message.time}

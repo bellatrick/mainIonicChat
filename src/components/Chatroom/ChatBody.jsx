@@ -1,20 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState} from "react";
 import "./styles.css";
-import { db } from "./firebase.js";
+// import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
+import {dateFormat, timeFormat} from "./TimeFormats"
 
-const dateFormat = (date) => {
-  let hours = date.getHours()
-  let minutes = date.getMinutes();
-  const ampm = hours >= 12 ? "pm" : "am"
-  hours = hours % 12
-  hours = hours ? hours : 12
-  minutes = minutes < 10 ? "0" + minutes : minutes
-  const timestamp = hours + ":" + minutes + ampm
-  return timestamp
-}
+
+
 const ChatBody = ({
   loadedMessages,
   setLoadedMessages,
@@ -24,6 +17,7 @@ const ChatBody = ({
 }) => {
   const messageEndRef = useRef(null);
   const [failedToLoad, setFailedToLoad] = useState(false)
+
 
   const scrollToBottom = () => {
     messageEndRef.current && messageEndRef.current.scrollIntoView();
@@ -35,26 +29,33 @@ const ChatBody = ({
     )
       .then((response) => response.json())
       .then((messages) => {
+        
+        console.log("supposed")
         const messagesArr = [];
         if (!messages || messages.length === 0) {
           setLoadedMessages([]);
+          console.log("no messages")
+          setdisableFunctions(false)
           return;
         }
         const messagesIDs = Object.keys(messages);
         messagesIDs.forEach((message, index) => {
           messagesArr.push(messages[message]);
-          setLoadedMessages([...messagesArr]);
           setdisableFunctions(false);
           scrollToBottom();
+          setFailedToLoad(false)
         });
-        messagesArr.map((item) => {
+        const messagesArr2 = messagesArr.map((item) => {
           return {
             name: item.name,
             message: item.message,
-            time: new Date(new Date().toLocaleString) - new Date(new Date(item.time).toLocaleString()) > 2 ? `${item.time.toLocaleDateString().slice(0, 9)} ${dateFormat(item.time)}` : dateFormat(item.time)
+            time:  dateFormat(item.time) > 2 ? `${new Date(new Date(item.time).toISOString()).toLocaleDateString()} ${timeFormat(new Date(item.time))}` : timeFormat(new Date(item.time))
           }
         })
-      }).catch(err => { setFailedToLoad(true) });
+        setLoadedMessages([...messagesArr2])
+        setFailedToLoad(false)
+      }).catch(err => { console.log(err) 
+        setFailedToLoad(true) });
   };
   useEffect(() => {
     fetchMessages();
@@ -62,20 +63,20 @@ const ChatBody = ({
 
   useEffect(() => {
     if (setScroll) scrollToBottom();
-    db.ref("messages").on("value", (snapshot) => {
-      let messagesArr = [];
-      snapshot.forEach((snap) => {
-        messagesArr.push(snap.val());
-        setLoadedMessages([...messagesArr]);
-        setdisableFunctions(false);
-      });
-      scrollToBottom();
-    });
+    // db.ref("messages").on("value", (snapshot) => {
+    //   let messagesArr = [];
+    //   snapshot.forEach((snap) => {
+    //     messagesArr.push(snap.val());
+    //     setLoadedMessages([...messagesArr]);
+    //     setdisableFunctions(false);
+    //   });
+    //   scrollToBottom();
+    // });
   });
   const filteredMessages =
     loadedMessages.length !== 0
       ? loadedMessages.sort(function (a, b) {
-        return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
+        return Object.values(a.time) < Object.values(b.time) ? 1 : -1;
       })
       : [];
   return (

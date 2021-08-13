@@ -38,7 +38,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
       <div className="user-action">
         <span className="footer-smiley">
           <GoIcons.GoSmiley
-            className="fa fa-paperclip icon"
+            className="fa fa-paperclip icon cursor"
             aria-hidden="true"
             onClick={() => {
               if (!disableFunctions) setOpenEmoji((prev) => !prev)
@@ -66,6 +66,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           onClick={() => {
             if (!disableFunctions) redirectToPhotos();
           }}
+          className = "cursor"
         >
           <FaIcons.FaPaperclip />
         </span>
@@ -74,12 +75,13 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           onClick={() => {
             if (!disableFunctions) takePhoto();
           }}
+          className = "cursor"
         >
           <MdIcons.MdCamera />
         </span>
       </div>
       <button
-        className="footer__speaker"
+        className="footer__speaker cursor"
         onClick={() => {
           enableSending();
           setInputValue("");
