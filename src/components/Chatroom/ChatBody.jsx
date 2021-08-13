@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./styles.css";
-import { db } from "./firebase";
+import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
