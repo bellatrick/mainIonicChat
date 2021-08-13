@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import * as GiIcons from "react-icons/gi";
 import "./styles.css";
