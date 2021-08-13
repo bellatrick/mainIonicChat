@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState} from "react";
 import "./styles.css";
-// import { db } from "./firebase.js";
+import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
@@ -63,15 +63,15 @@ const ChatBody = ({
 
   useEffect(() => {
     if (setScroll) scrollToBottom();
-    // db.ref("messages").on("value", (snapshot) => {
-    //   let messagesArr = [];
-    //   snapshot.forEach((snap) => {
-    //     messagesArr.push(snap.val());
-    //     setLoadedMessages([...messagesArr]);
-    //     setdisableFunctions(false);
-    //   });
-    //   scrollToBottom();
-    // });
+    db.ref("messages").on("value", (snapshot) => {
+      let messagesArr = [];
+      snapshot.forEach((snap) => {
+        messagesArr.push(snap.val());
+        setLoadedMessages([...messagesArr]);
+        setdisableFunctions(false);
+      });
+      scrollToBottom();
+    });
   });
   const filteredMessages =
     loadedMessages.length !== 0
