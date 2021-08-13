@@ -5,6 +5,7 @@ import "./styles.css";
 import { IonImg } from "@ionic/react";
 import * as AiIcons from "react-icons/ai";
 import Notification from "./loadersAndNotifications/Notification";
+import {timeFormat} from "./TimeFormats"
 
 const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
   const [isPosting, setIsPosting] = useState(true);
@@ -19,11 +20,11 @@ const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
     e.preventDefault();
     setIsPosting(true);
     const message = captionRef.current.value;
-    const time = Date();
+    const time = new Date();
     const messageObject = {
       name: "naphee",
       message: message,
-      time: time,
+      time: timeFormat(time),
       imageUrl: photo,
     };
     setLoadedMessages([...loadedMessages, messageObject]);

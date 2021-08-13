@@ -72,7 +72,7 @@ const ChatBody = ({
       });
       scrollToBottom();
     });
-  });
+  }, []);
   const filteredMessages =
     loadedMessages.length !== 0
       ? loadedMessages.sort(function (a, b) {

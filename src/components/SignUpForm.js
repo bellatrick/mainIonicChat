@@ -42,7 +42,7 @@ const SignUpForm = () => {
   //   "password": "123456"
   // }
   const [error, setError] = useState("");
-  const submitHandler = (name, password, phoneNumber) => {
+  const submitHandler = (name, phoneNumber, password) => {
     setLoading(true);
     setError("");
     fetch("https://anter-chat-app.herokuapp.com/api/v1/user/signup", {
@@ -63,13 +63,13 @@ const SignUpForm = () => {
           return res.json();
         } else {
           return res.json().then((data) => {
-            console.log(data);
+            console.log(data.message);
                  if(data.message){
+                   throw new Error(data.message)
                    setError(data.message)
-                 }
-            setError("Server Error! Please wait a moment and try again");
+                 }else setError("Server Error! Please wait a moment and try again");
 
-            throw new Error(errorMessage);
+           
           });
         }
       })
@@ -79,7 +79,8 @@ const SignUpForm = () => {
       })
       .catch((err) => {
         console.log(err.message);
-        setError("Slow network! Please try again");
+        setError(err.message)
+       setLoading(false)
       });
   };
   return (

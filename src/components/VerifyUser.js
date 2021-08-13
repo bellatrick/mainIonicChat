@@ -6,6 +6,7 @@ import { IonSpinner } from "@ionic/react";
 function VerifyUser() {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false)
   const [verificationCode, setVerificationCode] = useState({
     firstCode: "",
     secondCode: "",
@@ -14,15 +15,15 @@ function VerifyUser() {
   });
   const [error, setError] = useState('');
   const handleVerify = async (e) => {
-  
-      setError(false);
+     
+      setError('');
       setLoading(true);
       e.preventDefault();
       const { firstCode, secondCode, thirdCode, fourthCode } = verificationCode;
       const code = +`${firstCode}${secondCode}${thirdCode}${fourthCode}`;
       console.log(code);
       fetch(`https://anter-chat-app.herokuapp.com/api/v1/user/verify/${code}`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,21 +35,24 @@ function VerifyUser() {
             return res.json();
           } else {
             return res.json().then((data) => {
-              setError(data.message);
+              setError('Invalid code');
               throw new Error(error);
             });
           }
         })
         .then((data) => {
-          console.log(data);    
+          console.log(data); 
+          data.status==='success' &&setVerified(true)   
           history.replace("/login");
         })
         .catch((err) => {
           console.log(err);
+          setError('Network failure')
           setLoading(false);
         });
   
   };
+ 
   return (
     <div className="head">
       <h1 className="head__header">OTP Verification</h1>
