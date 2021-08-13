@@ -11,7 +11,8 @@ export const timeFormat = (date) => {
 
 export const dateFormat = (string) => {
    const newDate = new Date(string)
-    const returnedDate = newDate.getDate() +"/" + newDate.getMonth() + "/1" + newDate.getFullYear()
+    const returnedDate = newDate.getDate() +"/" + newDate.getMonth() + "/" + newDate.getFullYear()
+    console.log(returnedDate)
     return returnedDate
   }
 export const differenceInDates = (string) => {

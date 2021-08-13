@@ -40,7 +40,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
             <p className="messages__user-status--time2">
-              {differenceInDates(message.time) < 2 ?timeFormat(new Date(message.time)) : dateFormat(message.time)}
+              {differenceInDates(message.time) < 2 ?timeFormat(new Date(message.time)) :`${dateFormat(message.time)} ${timeFormat(new Date(message.time))}`}
             </p>
 
             {message.name === "naphee" && (
