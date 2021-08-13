@@ -39,17 +39,16 @@ const SignUpForm = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const submitHandler = (name, password, phoneNumber) => {
     setLoading(true);
-    setError('')
-    fetch('https://anter-chat-app.herokuapp.com/api/v1/users/signup', {
+    setError("");
+    fetch("https://anter-chat-app.herokuapp.com/api/v1/users/signup", {
       method: "POST",
       body: JSON.stringify({
-        username:name,
+        username: name,
         phoneNumber: phoneNumber,
         password: password,
-  
       }),
       headers: {
         "Content-Type": "application/json",
@@ -62,24 +61,22 @@ const SignUpForm = () => {
           return res.json();
         } else {
           return res.json().then((data) => {
-            console.log(data)
-          
-           setError('Slow network! Please try again')
+            console.log(data);
+
+            setError("Slow network! Please try again");
 
             throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
-        console.log(data)
-        history.replace('/verify');
+        console.log(data);
+        history.replace("/verify");
       })
       .catch((err) => {
         console.log(err.message);
-        setError('Slow network! Please try again')
-    
+        setError("Slow network! Please try again");
       });
-  
   };
   return (
     <Formik
@@ -95,7 +92,7 @@ const SignUpForm = () => {
         return (
           <div className="formSec">
             <h1>Create an account</h1>
-            { <h3>{error}</h3>}
+            {<h3>{error}</h3>}
             <Form className="signUp">
               <div className="form-row">
                 <label htmlFor="fullName">Name</label>
