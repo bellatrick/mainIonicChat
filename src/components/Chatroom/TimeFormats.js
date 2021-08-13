@@ -10,11 +10,17 @@ export const timeFormat = (date) => {
   }
 
 export const dateFormat = (string) => {
-    const newDate = new Date (new Date(new Date()).toLocaleDateString())
+   const newDate = new Date(string)
+    const returnedDate = newDate.getDate() +"/" + newDate.getMonth() + "/" + newDate.getFullYear()
+    console.log(returnedDate)
+    return returnedDate
+  }
+export const differenceInDates = (string) => {
+   const newDate = new Date (new Date(new Date()).toLocaleDateString())
   
     const nextDate = new Date(new Date(new Date(string).toISOString()).toLocaleDateString())
   
     const diffTime = Math.abs(newDate-nextDate)
     const diffDays = Math.ceil(diffTime/ (1000 * 60* 60 * 24))
     return diffDays
-  }
+}
