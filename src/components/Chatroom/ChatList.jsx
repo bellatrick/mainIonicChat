@@ -5,11 +5,12 @@ import "./styles.css";
 import { IonImg } from "@ionic/react";
 import Preview from "../ImagePreview";
 import { Store } from "../../utils/Store";
+import {dateFormat, timeFormat, differenceInDates} from "./TimeFormats"
+
 
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
-  const { state } = useContext(Store)
 
   const viewPicHandler = (url) => {
     setViewPic(true);
@@ -39,7 +40,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
             <p className="messages__user-status--time2">
-              {message.time}
+              {differenceInDates(message.time) < 2 ?timeFormat(new Date(message.time)) : dateFormat(message.time)}
             </p>
 
             {message.name === "naphee" && (

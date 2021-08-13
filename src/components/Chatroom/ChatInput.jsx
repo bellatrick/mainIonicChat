@@ -41,7 +41,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
             className="fa fa-paperclip icon cursor"
             aria-hidden="true"
             onClick={() => {
-              if (!disableFunctions) setOpenEmoji((prev) => !prev)
+              if (!disableFunctions) setOpenEmoji(prev => !prev)
             }
             }
           />
@@ -95,11 +95,11 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
       {waiting && <Waiting message="Please wait..." />}
       {openEmoji && (
         <>
-          <div className="overlay" onClick={() => setOpenEmoji(false)}></div>
           <Picker
             title="Pick your emoji…"
             emoji="point_up"
             onSelect={(emoji) => {
+              console.log("yes")
               console.log(emoji.native);
               setInputValue(inputValue + emoji.native);
             }}
