@@ -5,8 +5,6 @@ import Cookies from "js-cookie";
 import { IonSpinner } from "@ionic/react";
 import "./SignUpForm.css";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-// const phoneRegex = RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
 
 const signInSchema = Yup.object().shape({
   name: Yup.string()
@@ -38,12 +36,16 @@ const SignUpForm = () => {
   let errorMessage;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-
+  // {
+  //   "username": "Busayo",
+  //   "phoneNumber": "+2348108932666",
+  //   "password": "123456"
+  // }
   const [error, setError] = useState("");
   const submitHandler = (name, password, phoneNumber) => {
     setLoading(true);
     setError("");
-    fetch("https://anter-chat-app.herokuapp.com/api/v1/users/signup", {
+    fetch("https://anter-chat-app.herokuapp.com/api/v1/user/signup", {
       method: "POST",
       body: JSON.stringify({
         username: name,
@@ -62,8 +64,10 @@ const SignUpForm = () => {
         } else {
           return res.json().then((data) => {
             console.log(data);
-
-            setError("Slow network! Please try again");
+                 if(data.message){
+                   setError(data.message)
+                 }
+            setError("Server Error! Please wait a moment and try again");
 
             throw new Error(errorMessage);
           });

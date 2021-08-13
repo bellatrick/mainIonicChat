@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./VerifyUser.css";
 import { IonSpinner } from "@ionic/react";
-import axios from "axios";
+
 function VerifyUser() {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -12,30 +12,42 @@ function VerifyUser() {
     thirdCode: "",
     fourthCode: "",
   });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const handleVerify = async (e) => {
-    try {
+  
       setError(false);
       setLoading(true);
       e.preventDefault();
       const { firstCode, secondCode, thirdCode, fourthCode } = verificationCode;
       const code = +`${firstCode}${secondCode}${thirdCode}${fourthCode}`;
       console.log(code);
-
-      // const data = await axios.post(`https://anter-chat-app.herokuapp.com/api/v1/users/verify/${code}`)
-      // console.log(data, code, 'hi')
-      // if(isVerified){
-      //
-      //     setLoading(false)
-      // } else {
-      //     setError(true)
-      //     setLoading(false)
-      // }
-      history.push("/login");
-    } catch (err) {
-      setError(true);
-      setLoading(false);
-    }
+      fetch(`https://anter-chat-app.herokuapp.com/api/v1/user/verify/${code}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.json().then((data) => {
+              setError(data.message);
+              throw new Error(error);
+            });
+          }
+        })
+        .then((data) => {
+          console.log(data);    
+          history.replace("/login");
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+  
   };
   return (
     <div className="head">
@@ -43,13 +55,14 @@ function VerifyUser() {
       <small className="head__verification-text">
         Enter the code sent to your sms
       </small>
-      {error && <h3>Invalid verification code</h3>}
+      { <h3>{error}</h3>}
 
       <form className="verification-input" onSubmit={handleVerify}>
         <div className="verification-input-container">
           <input
             type="text"
             className="code"
+            required
             maxLength="1"
             value={verificationCode.firstCode}
             onChange={(e) =>
@@ -63,6 +76,7 @@ function VerifyUser() {
             type="text"
             className="code"
             maxLength="1"
+            required
             value={verificationCode.secondCode}
             onChange={(e) =>
               setVerificationCode({
@@ -75,6 +89,7 @@ function VerifyUser() {
             type="text"
             className="code"
             maxLength="1"
+            required
             value={verificationCode.thirdCode}
             onChange={(e) =>
               setVerificationCode({
@@ -87,6 +102,7 @@ function VerifyUser() {
             type="text"
             className="code"
             maxLength="1"
+            required
             value={verificationCode.fourthCode}
             onChange={(e) =>
               setVerificationCode({

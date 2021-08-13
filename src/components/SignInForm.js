@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { IonSpinner } from "@ionic/react";
-import axios from "axios";
+
 import "./SignInForm.css";
 import { Store } from "../utils/Store";
 import { useHistory, Link } from "react-router-dom";
@@ -23,7 +23,7 @@ const initialValues = {
   phoneNumber: "",
   password: "",
 };
-let errorMessage = "";
+
 const SignInForm = () => {
   const history = useHistory();
   const { state, dispatch } = useContext(Store);
@@ -34,11 +34,8 @@ const SignInForm = () => {
   const submitForm = async (phoneNumber, password) => {
     setLoading(true);
     setError("");
-    // const data = {
-    //   phoneNumber,
-    //   password,
-    // };
-    fetch("https://anter-chat-app.herokuapp.com/api/v1/users/login", {
+  
+    fetch("https://anter-chat-app.herokuapp.com/api/v1/user/login", {
       method: "POST",
       body: JSON.stringify({
         phoneNumber: phoneNumber,
@@ -58,7 +55,7 @@ const SignInForm = () => {
           return res.json();
         } else {
           return res.json().then((data) => {
-            setError(data.message);
+            data.message && setError(data.message);
             throw new Error(error);
           });
         }
