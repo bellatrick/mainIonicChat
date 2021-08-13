@@ -1,8 +1,17 @@
 .signUp {
     height: 5%;
-    margin-top: 1% !important; 
+    margin-top: 30%; 
 }
-
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active
+{
+ background:gray !important;
+ -webkit-text-fill-color: black;
+ -webkit-box-shadow: none;
+ transition: background-color 5000s ease-in-out 0s;
+}
 @media screen and (min-width: 25em) {
     .signUp {
         margin-top: 15vh; 
@@ -30,20 +39,29 @@
     border: none;
     position: relative;
     height: 5rem;
+    color:black;
     border-radius: 1rem;
     font-family: inherit;
     font-size: 1.7rem;
     transition: all 500ms; 
 }
-    
+.signUp div input::placeholder{
+    color:green
+} 
+
+.formSec h3{
+    text-align: center;
+    color: red;
+  }  
 .signUp div input:focus {
     box-shadow: 0 5px 22px rgba(0, 0, 0, 0.405);
+    background-color: gray;
     border: 1px solid #18c918; 
 }
 
 .signUp div label {
     display: block;
-    color: white;
+    color: gray;
     transform: translateY(4rem);
     transition: all 500ms; 
 }
@@ -66,6 +84,7 @@
 
 .option-text {
     margin-top: 2rem;
+    font-size: 1.5rem;
     text-align: center; }
 .option-text__link {
     color: #18c918;

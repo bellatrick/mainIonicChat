@@ -1,27 +1,126 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import './VerifyUser.css'
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import "./VerifyUser.css";
+import { IonSpinner } from "@ionic/react";
 
 function VerifyUser() {
-    return (
-        <div className="head">
-            <h1 className="head__header">OTP Verification</h1>
-            <small className="head__verification-text">Enter the code sent to your sms</small>
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [verificationCode, setVerificationCode] = useState({
+    firstCode: "",
+    secondCode: "",
+    thirdCode: "",
+    fourthCode: "",
+  });
+  const [error, setError] = useState('');
+  const handleVerify = async (e) => {
+  
+      setError(false);
+      setLoading(true);
+      e.preventDefault();
+      const { firstCode, secondCode, thirdCode, fourthCode } = verificationCode;
+      const code = +`${firstCode}${secondCode}${thirdCode}${fourthCode}`;
+      console.log(code);
+      fetch(`https://anter-chat-app.herokuapp.com/api/v1/user/verify/${code}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.json().then((data) => {
+              setError(data.message);
+              throw new Error(error);
+            });
+          }
+        })
+        .then((data) => {
+          console.log(data);    
+          history.replace("/login");
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+  
+  };
+  return (
+    <div className="head">
+      <h1 className="head__header">OTP Verification</h1>
+      <small className="head__verification-text">
+        Enter the code sent to your sms
+      </small>
+      { <h3>{error}</h3>}
 
-
-            <form className="verification-input">
-                <div className="verification-input-container">
-                    <input type="text" className="code" maxlength="1" />
-                    <input type="text" className="code" maxlength="1" />
-                    <input type="text" className="code" maxlength="1" />
-                    <input type="text" className="code" maxlength="1" />
-                </div>
-                {/* <p>Didn't receive a code? <Link href="#" className="option-text__link">Resend</Link></p> */}
-
-                <button type="submit" className="btn verification-input__btn"> Verify</button>
-            </form>
+      <form className="verification-input" onSubmit={handleVerify}>
+        <div className="verification-input-container">
+          <input
+            type="text"
+            className="code"
+            required
+            maxLength="1"
+            value={verificationCode.firstCode}
+            onChange={(e) =>
+              setVerificationCode({
+                ...verificationCode,
+                firstCode: e.target.value,
+              })
+            }
+          />
+          <input
+            type="text"
+            className="code"
+            maxLength="1"
+            required
+            value={verificationCode.secondCode}
+            onChange={(e) =>
+              setVerificationCode({
+                ...verificationCode,
+                secondCode: e.target.value,
+              })
+            }
+          />
+          <input
+            type="text"
+            className="code"
+            maxLength="1"
+            required
+            value={verificationCode.thirdCode}
+            onChange={(e) =>
+              setVerificationCode({
+                ...verificationCode,
+                thirdCode: e.target.value,
+              })
+            }
+          />
+          <input
+            type="text"
+            className="code"
+            maxLength="1"
+            required
+            value={verificationCode.fourthCode}
+            onChange={(e) =>
+              setVerificationCode({
+                ...verificationCode,
+                fourthCode: e.target.value,
+              })
+            }
+          />
         </div>
-    )
+        {/* <p>Didn't receive a code? <Link href="#" className="option-text__link">Resend</Link></p> */}
+
+        <button type="submit" className="btn verification-input__btn">
+          {" "}
+          Verify {loading && <IonSpinner name="bubbles" />}
+        </button>
+      </form>
+    </div>
+  );
 }
 
-export default VerifyUser
+export default VerifyUser;

@@ -9,9 +9,12 @@
     border: none;
     border-radius: .8rem; 
 }
- 
+.formSec h1{
+    text-align: center;
+} 
 .option-text {
-    margin-top: 2rem;
+  
+    color: white;
     text-align: center; }
     .option-text__link {
     color: #18c918;

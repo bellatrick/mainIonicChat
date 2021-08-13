@@ -59,7 +59,7 @@ const ChatBody = ({
   };
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [setLoadedMessages, setdisableFunctions]);
 
   useEffect(() => {
     if (setScroll) scrollToBottom();

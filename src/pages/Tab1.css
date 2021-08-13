@@ -1,3 +1,14 @@
 .loginPage{
     --background: white;
 }
+
+.chat-aside{
+    display:flex;
+    justify-content:space-between;
+  }
+  .chat-aside button{
+      background-color: white;
+     margin-right: 20px;
+     font-size: 1.1rem;
+     font-weight: bold;
+  }
