@@ -82,11 +82,29 @@ html {
 .messages__users--00,
 .messages__users--01 {
   position: relative;
-  margin: 1rem 5rem 3rem 0.2rem;
+  margin: 1rem 5rem 3rem 1rem;
   padding-bottom: 1.5rem;
   border-radius: 1rem;
   background-color: #fff;
   box-shadow: 0 0 10px #c1c1c1;
+  max-width: 300px;
+  margin-right: auto;
+  padding: 15px;
+  width: fit-content;
+}
+.messages__user {
+  position: relative;
+  width: fit-content;
+  margin: 2rem 5rem 1rem 0.2rem;
+  margin-left: auto;
+  /* padding: 0.8rem; */
+  padding: 15px;
+  padding-right: 10rem;
+  padding-bottom: 2rem;
+  border-radius: 1rem 1rem 1rem 1rem;
+  background-color: #18c918;
+  box-shadow: 0 0 10px #c1c1c1;
+  line-height: 1.7;
   max-width: 300px;
 }
 .messages .callout:before {
@@ -120,21 +138,7 @@ html {
   font-weight: 700;
   font-size: 0.5rem;
 }
-.messages__user {
-  position: relative;
-  width: fit-content;
-  margin: 2rem 5rem 1rem 0.2rem;
-  margin-left: auto;
-  /* padding: 0.8rem; */
-  padding: 15px;
-  padding-right: 10rem;
-  padding-bottom: 2rem;
-  border-radius: 1rem 1rem 1rem 1rem;
-  background-color: #18c918;
-  box-shadow: 0 0 10px #c1c1c1;
-  line-height: 1.7;
-  max-width: 300px;
-}
+
 .messages__user .user-callout:before {
   content: "";
   position: absolute;
@@ -151,12 +155,13 @@ html {
   right: 2rem;
   display: flex;
   align-items: center;
-  color: white;
+  color: darkslategray;
 }
 .messages__user-status [class$="time2"] {
   font-weight: 400;
   padding-right: 0.5rem;
   font-size: 1rem;
+  color: darkslategray;
 }
 .messages__user-status .fa-check {
   font-size: 1rem;
@@ -291,8 +296,82 @@ html {
   width: 50px;
   height: 50px;
   padding: 2px;
+
   border-radius: 20% 50% 50% 2%;
 }
 .post__close {
   font-size: large;
+}
+.preview__modal {
+  background-color: #e8e6e4;
+  color: black;
+  padding: 10px 20px;
+  height: auto;
+  width: auto;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  font-size: 1.3rem;
+}
+.preview__image__div {
+  width: 350px;
+  height: 350px;
+}
+
+/* GLOBAL STYLES (must be applied)*/
+.emoji-mart {
+  display: flex;
+  flex-direction: column;
+}
+.emoji-mart-bar {
+  margin-top: 20px;
+}
+.emoji-mart-preview {
+  display: none;
+}
+.emoji-mart-search label {
+  margin-left: 5px;
+  font-size: 10px;
+}
+.emoji-mart-scroll {
+  padding: 5px 10px;
+  overflow-y: scroll;
+}
+.emoji-mart-category-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.moment__user {
+  background: goldenrod;
+  width: fit-content;
+  height: auto;
+  color: darkslategray;
+  position: absolute;
+  top: -20%;
+  left: -30px;
+  font-size: 15px;
+  margin-top: 10px;
+  padding-left:50px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+.moment__others {
+  background: goldenrod;
+  width: fit-content;
+  height: auto;
+  color: darkslategray;
+  position: absolute;
+  top: -20%;
+  right: -30px;
+  font-size: 15px;
+  margin-top: 10px;
+  padding-left:50px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+.cursor {
+  cursor:pointer
 }

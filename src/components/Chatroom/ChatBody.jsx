@@ -1,98 +1,95 @@
-import React, { useEffect, useRef } from "react";
-import * as GiIcons from "react-icons/gi";
+import React, { useEffect, useRef, useState} from "react";
 import "./styles.css";
-import { IonImg } from "@ionic/react";
-import { db } from "./firebase";
+import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
+import ChatList from "./ChatList";
+import Waiting from "./loadersAndNotifications/Waiting";
+import {dateFormat, timeFormat} from "./TimeFormats"
+
+
 
 const ChatBody = ({
   loadedMessages,
   setLoadedMessages,
   disableFunctions,
   setdisableFunctions,
+  setScroll,
 }) => {
   const messageEndRef = useRef(null);
+  const [failedToLoad, setFailedToLoad] = useState(false)
+
 
   const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView();
+    messageEndRef.current && messageEndRef.current.scrollIntoView();
   };
-  const filteredMessages = loadedMessages.sort(function (a, b) {
-    return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
-  });
-
-  useEffect(() => {
-    console.log("fetching");
-    const fetchMessages = () => {
-      fetch(
-        "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
-      )
-        .then((response) => response.json())
-        .then((messages) => {
-          const messagesArr = [];
-          const messagesIDs = Object.keys(messages);
-          messagesIDs.forEach((message, index) => {
-            messagesArr.push(messages[message]);
-            setLoadedMessages([...messagesArr]);
-            console.log("fetched");
-            setdisableFunctions(false);
-            scrollToBottom();
-          });
+  const fetchMessages = () => {
+    setFailedToLoad(false)
+    fetch(
+      "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
+    )
+      .then((response) => response.json())
+      .then((messages) => {
+        
+        console.log("supposed")
+        const messagesArr = [];
+        if (!messages || messages.length === 0) {
+          setLoadedMessages([]);
+          console.log("no messages")
+          setdisableFunctions(false)
+          return;
+        }
+        const messagesIDs = Object.keys(messages);
+        messagesIDs.forEach((message, index) => {
+          messagesArr.push(messages[message]);
+          setdisableFunctions(false);
+          scrollToBottom();
+          setFailedToLoad(false)
         });
-    };
+        const messagesArr2 = messagesArr.map((item) => {
+          return {
+            name: item.name,
+            message: item.message,
+            time:  dateFormat(item.time) > 2 ? `${new Date(new Date(item.time).toISOString()).toLocaleDateString()} ${timeFormat(new Date(item.time))}` : timeFormat(new Date(item.time))
+          }
+        })
+        setLoadedMessages([...messagesArr2])
+        setFailedToLoad(false)
+      }).catch(err => { console.log(err) 
+        setFailedToLoad(true) });
+  };
+  useEffect(() => {
     fetchMessages();
   }, []);
 
   useEffect(() => {
+    if (setScroll) scrollToBottom();
     db.ref("messages").on("value", (snapshot) => {
       let messagesArr = [];
       snapshot.forEach((snap) => {
         messagesArr.push(snap.val());
         setLoadedMessages([...messagesArr]);
+        setdisableFunctions(false);
       });
       scrollToBottom();
     });
   });
-
+  const filteredMessages =
+    loadedMessages.length !== 0
+      ? loadedMessages.sort(function (a, b) {
+        return Object.values(a.time) < Object.values(b.time) ? 1 : -1;
+      })
+      : [];
   return (
     <div>
       {disableFunctions && <Spinner message="Loading chats..." />}
+      {failedToLoad && <Waiting message="Network error. Please refresh..." failedToLoad={failedToLoad} reload={fetchMessages} />}
 
-      {!disableFunctions &&
-        filteredMessages.map((message, i) => (
-          <div
-            className={
-              message.name === "naphee"
-                ? "messages__user user-callout"
-                : "messages__users--01 callout"
-            }
-            key={i}
-          >
-            <p className="messages__users--01-id">{message.name}</p>
-            <p className="messages__users--01-content">{message.message}</p>
-            <div class="messages__user-status user-callout">
-              <p class="messages__user-status--time2">
-                {message.time.slice(16, 21)}
-              </p>
-
-              {message.name === "naphee" && (
-                <>
-                  <GiIcons.GiCheckMark className="fa-check icon" />
-                  <GiIcons.GiCheckMark className="fa-check second" />
-                </>
-              )}
-            </div>
-
-            {message.imageUrl && (
-              <span>
-                <IonImg src={message.imageUrl} />
-              </span>
-            )}
-          </div>
-        ))}
-      <div
-        ref={messageEndRef}
-        style={{ background: "transparent", height: "10px" }}
-      ></div>
+      {!disableFunctions && (
+        <ChatList
+          filteredMessages={filteredMessages}
+          messageEndRef={messageEndRef}
+        />
+      )}
     </div>
   );
 };

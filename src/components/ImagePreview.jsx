@@ -1,22 +1,24 @@
 import ReactDom from "react-dom";
+import "./Chatroom/styles.css";
 import * as AiIcons from "react-icons/ai";
-import "../styles.css";
+import { IonImg } from "@ionic/react";
 
-const Notification = ({ notification, nodisplay, tryAgain }) => {
+const Preview = ({ image, nodisplay }) => {
   return ReactDom.createPortal(
     <>
       <div className="overlay" onClick={nodisplay}></div>
-      <div className="modal">
+      <div className="preview__modal">
         <AiIcons.AiFillCloseCircle
-          className="close__icon cursor"
+          className="close__icon"
           onClick={nodisplay}
         />
-        <p className="modal__paragraph">{notification}</p>
-        <button onClick={tryAgain} className = "cursor">Retry</button>
+        <div>
+          <IonImg className="preview__image__div" src={image} />
+        </div>
       </div>
     </>,
     document.getElementById("post_root")
   );
 };
 
-export default Notification;
+export default Preview;

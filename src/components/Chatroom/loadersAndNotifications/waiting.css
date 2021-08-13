@@ -24,3 +24,10 @@
     top: 1%;
   }
 }
+.reload {
+  font-size:20px;
+  margin-left:48%;
+  margin-top:10px;
+  cursor:pointer
+}
+
