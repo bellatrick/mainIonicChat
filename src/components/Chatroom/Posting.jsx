@@ -30,7 +30,7 @@ const Posting = ({
     const messageObject = {
       name: name,
       message: message,
-      time: timeFormat(time),
+      time:time,
       imageUrl: photo,
     };
     setLoadedMessages([...loadedMessages, messageObject]);

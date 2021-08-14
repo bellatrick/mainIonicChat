@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import * as GiIcons from "react-icons/gi";
 import "./styles.css";
@@ -11,7 +11,14 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
   const { state } = useContext(Store);
-  const loggedUserName = state?.user?.username;
+  const [loggedUserName, setloggedUserName] = useState('')
+
+  useEffect(() => {
+    if (state.user) {
+     setloggedUserName(state.user.username)
+    }
+
+  }, []);
 
   const viewPicHandler = (url) => {
     setViewPic(true);
@@ -38,7 +45,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
               onClick={() => viewPicHandler(message.imageUrl)}
               className="cursor"
             >
-              <IonImg src={message.imageUrl} />
+              <IonImg src={message.imageUrl} alt='chatimage'/>
             </span>
           )}
           <p className="messages__users--01-content">{message.message}</p>

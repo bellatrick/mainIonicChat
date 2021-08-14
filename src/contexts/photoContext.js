@@ -9,7 +9,7 @@ const PhotoProvider = ({ children }) => {
 
   const postPhoto = (photo) => {
     setPhotoToPost(photo.webviewPath);
-    history.push("/chatroom");
+    history.push("/chats");
   };
 
   const value = {
