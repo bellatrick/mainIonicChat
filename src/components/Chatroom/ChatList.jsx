@@ -13,7 +13,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [pic, setPic] = useState(null);
 
   const { state } = useContext(Store);
-  if(!state.user) return
+
   const loggedUserName = state.user.username;
   const viewPicHandler = (url) => {
     setViewPic(true);
