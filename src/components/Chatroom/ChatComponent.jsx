@@ -5,16 +5,16 @@ import "./styles.css";
 // import { db } from "./firebase";
 import { PhotoContext } from "../../contexts/photoContext";
 import Posting from "./Posting";
-import { StoreProvider } from "../../utils/Store";
-import {timeFormat} from "./TimeFormats"
-
+import { Store, StoreProvider } from "../../utils/Store";
+import { timeFormat } from "./TimeFormats";
 
 const ChatComponent = () => {
   const [loadedMessages, setLoadedMessages] = useState([]);
   const [scroll, setScroll] = useState(false);
   const [disableFunctions, setdisableFunctions] = useState(true);
   const { photoToPost, setPhotoToPost } = useContext(PhotoContext);
-
+  const { state } = useContext(Store);
+  const loggedUserName = state?.user?.username;
   const closePost = () => {
     setPhotoToPost(null);
   };
@@ -27,15 +27,18 @@ const ChatComponent = () => {
     const time = new Date();
 
     const messageObject = {
-      name: "naphee",
+      name: loggedUserName,
       message: message,
-      time: time,
-    };
-    setLoadedMessages([...loadedMessages, {
-      name: "naphee",
-      message: message,
-      time:timeFormat(time)
-    }]);
+    time: time,
+    };  
+    setLoadedMessages([
+      ...loadedMessages,
+      {
+        name: loggedUserName,
+        message: message,
+        time: time,
+      },
+    ]);
     setScroll(true);
     const pushNewMessage = () => {
       fetch(
@@ -48,7 +51,7 @@ const ChatComponent = () => {
           },
         }
       )
-        .then(function (response) { })
+        .then(function (response) {})
         .catch((error) => console.log(error));
     };
     pushNewMessage();
@@ -78,6 +81,7 @@ const ChatComponent = () => {
             closePost={closePost}
             loadedMessages={loadedMessages}
             setLoadedMessages={setLoadedMessages}
+            name={loggedUserName}
           />
         )}
       </div>

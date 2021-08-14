@@ -65,9 +65,10 @@ const SignUpForm = () => {
           return res.json().then((data) => {
             console.log(data.message);
                  if(data.message){
+                  setError(data.message)
                    throw new Error(data.message)
-                   setError(data.message)
-                 }else setError("Server Error! Please wait a moment and try again");
+                  
+                 }else throw new Error("Server Error! Please wait a moment and try again");
 
            
           });

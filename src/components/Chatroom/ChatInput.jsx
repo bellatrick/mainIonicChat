@@ -20,7 +20,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
   const history = useHistory();
 
   const redirectToPhotos = () => {
-    history.push("/photos");
+    history.push("/gallery");
   };
   const enableSending = () => {
     if (disableFunctions === false) {
@@ -41,9 +41,8 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
             className="fa fa-paperclip icon cursor"
             aria-hidden="true"
             onClick={() => {
-              if (!disableFunctions) setOpenEmoji((prev) => !prev)
-            }
-            }
+              if (!disableFunctions) setOpenEmoji((prev) => !prev);
+            }}
           />
         </span>
         <form
@@ -58,6 +57,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type your message..."
+            className = "chat__input"
           />
           <button className="hidden"></button>
         </form>
@@ -66,16 +66,14 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
           onClick={() => {
             if (!disableFunctions) redirectToPhotos();
           }}
-          className = "cursor"
         >
           <FaIcons.FaPaperclip />
         </span>
         <span
-          className="footer__photo"
+          className="footer__photo "
           onClick={() => {
             if (!disableFunctions) takePhoto();
           }}
-          className = "cursor"
         >
           <MdIcons.MdCamera />
         </span>
@@ -88,14 +86,13 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
         }}
       >
         <IoIcons.IoMdPaperPlane
-          className="fa fa-microphone fa-lg icon"
+          className="fa fa-microphone fa-lg icon cursor"
           aria-hidden="true"
         />
       </button>
       {waiting && <Waiting message="Please wait..." />}
       {openEmoji && (
         <>
-          <div className="overlay" onClick={() => setOpenEmoji(false)}></div>
           <Picker
             title="Pick your emoji…"
             emoji="point_up"

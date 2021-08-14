@@ -78,6 +78,7 @@ html {
   position: relative;
   height: 70%;
   overflow-y: scroll;
+  padding-top: 10px;
 }
 .messages__users--00,
 .messages__users--01 {
@@ -91,9 +92,11 @@ html {
   margin-right: auto;
   padding: 15px;
   width: fit-content;
+  color: darkslategray !important;
 }
 .messages__user {
   position: relative;
+  color: darkslategray !important;
   width: fit-content;
   margin: 2rem 5rem 1rem 0.2rem;
   margin-left: auto;
@@ -130,13 +133,13 @@ html {
 .messages__users--01-content {
   padding-bottom: 1rem;
 }
-.messages [class$="time"] {
+.othersTime {
   position: absolute;
-  right: 2rem;
-  bottom: 1rem;
+  right: -0.6rem;
+  bottom: 0.5rem;
   color: gray;
   font-weight: 700;
-  font-size: 0.5rem;
+  font-size: 1rem;
 }
 
 .messages__user .user-callout:before {
@@ -181,6 +184,10 @@ html {
 }
 .user-action > * {
   padding: 0 0.2rem;
+}
+.footer__photo  {
+  color:grey;
+  cursor: pointer;
 }
 
 .footer {
@@ -344,6 +351,7 @@ html {
   display: flex;
   flex-wrap: wrap;
 }
+
 .moment__user {
   background: goldenrod;
   width: fit-content;
@@ -354,7 +362,7 @@ html {
   left: -30px;
   font-size: 15px;
   margin-top: 10px;
-  padding-left:50px;
+  padding-left: 50px;
   padding-right: 10px;
   border-radius: 10px;
 }
@@ -368,10 +376,10 @@ html {
   right: -30px;
   font-size: 15px;
   margin-top: 10px;
-  padding-left:50px;
+  padding-left: 50px;
   padding-right: 10px;
   border-radius: 10px;
 }
 .cursor {
-  cursor:pointer
+  cursor: pointer;
 }

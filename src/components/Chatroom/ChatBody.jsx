@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState, useContext} from "react";
 import "./styles.css";
 import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
 import {dateFormat, timeFormat} from "./TimeFormats"
+import { Store } from "../../utils/Store";
 
 
 
@@ -17,8 +18,8 @@ const ChatBody = ({
 }) => {
   const messageEndRef = useRef(null);
   const [failedToLoad, setFailedToLoad] = useState(false)
-
-
+  const {state} = useContext(Store)
+   console.log(state.user)
   const scrollToBottom = () => {
     messageEndRef.current && messageEndRef.current.scrollIntoView();
   };
@@ -41,25 +42,20 @@ const ChatBody = ({
         const messagesIDs = Object.keys(messages);
         messagesIDs.forEach((message, index) => {
           messagesArr.push(messages[message]);
+          setLoadedMessages([...messagesArr])
           setdisableFunctions(false);
           scrollToBottom();
           setFailedToLoad(false)
         });
-        const messagesArr2 = messagesArr.map((item) => {
-          return {
-            name: item.name,
-            message: item.message,
-            time:  dateFormat(item.time) > 2 ? `${new Date(new Date(item.time).toISOString()).toLocaleDateString()} ${timeFormat(new Date(item.time))}` : timeFormat(new Date(item.time))
-          }
-        })
-        setLoadedMessages([...messagesArr2])
+      
+       
         setFailedToLoad(false)
       }).catch(err => { console.log(err) 
         setFailedToLoad(true) });
   };
   useEffect(() => {
     fetchMessages();
-  }, [setLoadedMessages, setdisableFunctions]);
+  }, []);
 
   useEffect(() => {
     if (setScroll) scrollToBottom();
@@ -76,7 +72,7 @@ const ChatBody = ({
   const filteredMessages =
     loadedMessages.length !== 0
       ? loadedMessages.sort(function (a, b) {
-        return Object.values(a.time) < Object.values(b.time) ? 1 : -1;
+        return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
       })
       : [];
   return (
