@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { IonSpinner } from "@ionic/react";
 import { Storage } from "@capacitor/storage";
-
+import axios from 'axios'
 import "./SignInForm.css";
 import { Store } from "../utils/Store";
 import { useHistory, Link } from "react-router-dom";
@@ -26,58 +26,35 @@ const initialValues = {
 };
 
 const SignInForm = () => {
+
   const history = useHistory();
   const [user, setUser] = useState({})
   const { state, dispatch } = useContext(Store);
 
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
-  const submitForm = (phoneNumber, password) => {
+  useEffect(() => {
+    if (state.user) {
+      history.push('/chats');
+    }
+  }, [])
+  const submitForm = async (phoneNumber, password) => {
     setLoading(true);
-    setError("");
-    fetch("https://anter-chat-app.herokuapp.com/api/v1/user/login", {
-      method: "POST",
-      body: JSON.stringify({
-        phoneNumber: phoneNumber,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.statusText === "Unauthorized") {
-          setError("Your account has not been verified");
-        }
-        console.log(res);
-        setLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            data.message && setError(data.message);
-            throw new Error(error);
-          });
-        }
-      })
-      .then((data) => {
-       // Storage.set({ key: USER_DETAILS, value: JSON.stringify(data.data.user) });
-        console.log(data.data.user);  
-        setUser(data.data.user)
-       // dispatch({ type: "LOGIN", payload: user.username });
-        localStorage.setItem('user', JSON.stringify(data.data.user))
-        console.log(user)
-        history.push("/chats");
-      })
-      .catch((err) => {
-        console.log(err);
-        setError("Server Error! Please wait a moment and try again");
-        setLoading(false);
+    try {
+      const { data } = await axios.post("https://anter-chat-app.herokuapp.com/api/v1/user/login", {    
+        phoneNumber,
+        password,
       });
-
-       localStorage.setItem('user', JSON.stringify(user))
-  };
+      dispatch({ type: 'LOGIN', payload: data.data.user });
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+      history.push('/chats')
+      setLoading(false)
+    } catch (err) {
+      if(err.message) setError(err.message)
+      setError('Invalid credentials')
+      setLoading(false)
+    }
+  }
 
   return (
     <Formik

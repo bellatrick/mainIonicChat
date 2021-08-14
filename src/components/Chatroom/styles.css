@@ -272,11 +272,14 @@ html {
   left: 50%; */
   z-index: 9999;
 }
+.chat__input{
+  background-color: rgb(248, 242, 242);
+}
 .post__image {
   padding: 0 auto;
   margin: 0px auto 40px;
   /* height: 150%; */
-  width: fit-content;
+  max-width: 100px;
 }
 .post__form {
   width: 80%;

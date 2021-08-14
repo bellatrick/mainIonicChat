@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ChatInput from "./ChatInput";
 import ChatBody from "./ChatBody";
 import "./styles.css";
@@ -14,7 +14,16 @@ const ChatComponent = () => {
   const [disableFunctions, setdisableFunctions] = useState(true);
   const { photoToPost, setPhotoToPost } = useContext(PhotoContext);
   const { state } = useContext(Store);
-  const loggedUserName = state?.user?.username;
+  const [loggedUserName, setloggedUserName] = useState('')
+
+  useEffect(() => {
+    if (state.user) {
+     setloggedUserName(state.user.username)
+     console.log(state.user.username)
+    }
+
+  }, []);
+
   const closePost = () => {
     setPhotoToPost(null);
   };

@@ -18,19 +18,18 @@ const ChatRoom: React.FC = () => {
         <div className='chat-aside'>
         <Button onClick={()=> history.replace('/gallery')}>Gallery</Button>
         <Button onClick={()=> {
+          localStorage.removeItem('user')
           history.replace('/login')
           dispatch({type:'LOGOUT'})}}>Logout</Button>
         </div>
        
 
         {/* <button onClick={() => takePhoto()}>Post a picture</button> */}
-
       </IonHeader>
       </IonToolbar>
       
       <IonContent fullscreen>
-        <ChatComponent />
-
+      <ChatComponent />
       </IonContent>
     </IonPage>
   );
