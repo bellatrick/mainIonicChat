@@ -4,7 +4,7 @@ export const Store = createContext();
 
 const initialState = {
 //   user: Cookies.get("userInfo") ? JSON.parse(Cookies.get("userInfo")) : null,
-   user:{}
+   user:localStorage.getItem('user')?JSON.parse(localStorage.getItem('user')):null
 };
 function reducer(state, action) {
   switch (action.type) {

@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState, useContext} from "react";
 import "./styles.css";
 import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
 import {dateFormat, timeFormat} from "./TimeFormats"
+import { Store } from "../../utils/Store";
 
 
 
@@ -17,8 +18,8 @@ const ChatBody = ({
 }) => {
   const messageEndRef = useRef(null);
   const [failedToLoad, setFailedToLoad] = useState(false)
-
-
+  const {state} = useContext(Store)
+   console.log(state.user)
   const scrollToBottom = () => {
     messageEndRef.current && messageEndRef.current.scrollIntoView();
   };
@@ -41,20 +42,20 @@ const ChatBody = ({
         const messagesIDs = Object.keys(messages);
         messagesIDs.forEach((message, index) => {
           messagesArr.push(messages[message]);
+          setLoadedMessages([...messagesArr])
           setdisableFunctions(false);
           setLoadedMessages([...messagesArr])
           scrollToBottom();
           setFailedToLoad(false)
         });
-       
-        
+
         setFailedToLoad(false)
       }).catch(err => { console.log(err) 
         setFailedToLoad(true) });
   };
   useEffect(() => {
     fetchMessages();
-  }, [setLoadedMessages, setdisableFunctions]);
+  }, []);
 
   useEffect(() => {
     if (setScroll) scrollToBottom();

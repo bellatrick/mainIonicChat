@@ -51,11 +51,11 @@ export function usePhotoGallery() {
   }, []);
 
   const takePhoto = async () => {
-    const cameraPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-      quality: 100,
-    });
+   try{ const cameraPhoto = await Camera.getPhoto({
+    resultType: CameraResultType.Uri,
+    source: CameraSource.Camera,
+    quality: 100,
+  })
     const fileName = new Date().getTime() + ".jpeg";
     const savedFileImage = await savePicture(cameraPhoto, fileName);
     const newPhotos = [savedFileImage, ...photos];
@@ -66,9 +66,11 @@ export function usePhotoGallery() {
     setPhotos(newPhotos);
     Storage.set({ key: SINGLE_STORAGE, value: JSON.stringify(singlePhoto) });
     Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
-    history.push("/photos");
-  };
-
+    history.push("/gallery");
+  }catch(err){
+    console.log(err)
+  }
+  }
   const savePicture = async (photo, fileName) => {
     let base64Data;
     // "hybrid" will detect Cordova or Capacitor;

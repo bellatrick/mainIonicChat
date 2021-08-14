@@ -5,9 +5,15 @@ import "./styles.css";
 import { IonImg } from "@ionic/react";
 import * as AiIcons from "react-icons/ai";
 import Notification from "./loadersAndNotifications/Notification";
-import {timeFormat} from "./TimeFormats"
+import { timeFormat } from "./TimeFormats";
 
-const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
+const Posting = ({
+  photo,
+  closePost,
+  setLoadedMessages,
+  loadedMessages,
+  name,
+}) => {
   const [isPosting, setIsPosting] = useState(true);
   const { setPhotoToPost } = useContext(PhotoContext);
   const captionRef = useRef(null);
@@ -22,7 +28,7 @@ const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
     const message = captionRef.current.value;
     const time = new Date();
     const messageObject = {
-      name: "naphee",
+      name: name,
       message: message,
       time: timeFormat(time),
       imageUrl: photo,

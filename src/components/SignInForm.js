@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { IonSpinner } from "@ionic/react";
+import { Storage } from "@capacitor/storage";
 
 import "./SignInForm.css";
 import { Store } from "../utils/Store";
 import { useHistory, Link } from "react-router-dom";
 // import Cookies from 'js-cookie'
 // const phoneRegex = RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
-
+const USER_DETAILS='user'
 const signInSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .min(10, "Digits too short - should be 10 digits min")
@@ -26,15 +27,15 @@ const initialValues = {
 
 const SignInForm = () => {
   const history = useHistory();
+  const [user, setUser] = useState({})
   const { state, dispatch } = useContext(Store);
-  // const { userInfo } = state;
+
   const [loading, setLoading] = useState(false);
-  //const [errorMessage, setErrorMessage] = useState({passwordErr:'', phoneNoErr:'', GeneralErr:''})
+
   const [error, setError] = useState("");
-  const submitForm = async (phoneNumber, password) => {
+  const submitForm = (phoneNumber, password) => {
     setLoading(true);
     setError("");
-  
     fetch("https://anter-chat-app.herokuapp.com/api/v1/user/login", {
       method: "POST",
       body: JSON.stringify({
@@ -61,15 +62,21 @@ const SignInForm = () => {
         }
       })
       .then((data) => {
-        console.log(data);
-        dispatch({ action: "LOGIN", payload: data });
-        history.replace("/chats");
+       // Storage.set({ key: USER_DETAILS, value: JSON.stringify(data.data.user) });
+        console.log(data.data.user);  
+        setUser(data.data.user)
+       // dispatch({ type: "LOGIN", payload: user.username });
+        localStorage.setItem('user', JSON.stringify(data.data.user))
+        console.log(user)
+        history.push("/chats");
       })
       .catch((err) => {
         console.log(err);
-
+        setError("Server Error! Please wait a moment and try again");
         setLoading(false);
       });
+
+       localStorage.setItem('user', JSON.stringify(user))
   };
 
   return (

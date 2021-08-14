@@ -5,15 +5,8 @@ import ChatRoom from "./pages/ChatRoom";
 import PhotoPage from "./pages/PhotoPage";
 import LoginPage from "./pages/LoginPage";
 import { useContext } from "react";
-import { images, person } from "ionicons/icons";
-import {
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-} from "@ionic/react";
+
+import { IonRouterOutlet } from "@ionic/react";
 
 import { Store } from "./utils/Store";
 /* Core CSS required for Ionic components to work properly */
@@ -36,27 +29,31 @@ import "@ionic/react/css/typography.css";
 import "./theme/variables.css";
 import Registration from "./pages/Registration";
 import Verification from "./pages/Verification";
+import VerificationMessage from "./pages/VerificationMessage";
 import PhotoProvider from "./contexts/photoContext";
 const App: React.FC = () => {
-
+  const { state } = useContext(Store);
 
   return (
     <IonApp>
-      <IonReactRouter>  
-          <IonRouterOutlet>
-            <Route path="/login" component={LoginPage} exact={true} />
-            <PhotoProvider>  
-              <Route path="/gallery" component={PhotoPage} exact={true} />
-              <Route path="/chats" component={ChatRoom} exact={true} />
-            </PhotoProvider>
-            <Route path="/register" component={Registration} exact={true} />
-            <Route path="/verify" component={Verification} exact={true} />
-            <Route     
-              path="/"
-              render={() => <Redirect to="/login" />}
-              exact={true}     
-            />  
-          </IonRouterOutlet>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/login" component={LoginPage} exact={true} />
+          <PhotoProvider>
+            <Route path="/gallery" component={PhotoPage} exact={true} />
+            <Route path="/chats" component={ChatRoom} exact={true} />
+          </PhotoProvider>
+          <Route path="/register" component={Registration} exact={true} />
+          <Route path="/verify" component={Verification} exact={true} />
+          <Route path="/verifySuccess" component={VerificationMessage} exact={true} />
+          <Route
+            path="/"
+            render={() =>
+              state.user ? <Redirect to="/chats" /> : <Redirect to="/login" />
+            }
+            exact={true}
+          />
+        </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   );

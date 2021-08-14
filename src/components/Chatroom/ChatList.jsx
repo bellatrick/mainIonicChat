@@ -5,13 +5,16 @@ import "./styles.css";
 import { IonImg } from "@ionic/react";
 import Preview from "../ImagePreview";
 import { Store } from "../../utils/Store";
-import {dateFormat, timeFormat, differenceInDates} from "./TimeFormats"
+import { timeFormat, dateFormat, differenceInDates } from "./TimeFormats";
 
 
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
 
+  const { state } = useContext(Store);
+  if(!state.user) return
+  const loggedUserName = state.user.username;
   const viewPicHandler = (url) => {
     setViewPic(true);
     setPic(url);
@@ -25,7 +28,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
       {filteredMessages.map((message, i) => (
         <div
           className={
-            message.name === "naphee"
+            message.name === loggedUserName
               ? "messages__user user-callout"
               : "messages__users--01 callout"
           }
@@ -33,17 +36,22 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
         >
           <p className="messages__users--01-id">{message.name}</p>
           {message.imageUrl && (
-            <span onClick={() => viewPicHandler(message.imageUrl)} className = "cursor">
+            <span
+              onClick={() => viewPicHandler(message.imageUrl)}
+              className="cursor"
+            >
               <IonImg src={message.imageUrl} />
             </span>
           )}
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
-            <p className="messages__user-status--time2">
-              {differenceInDates(message.time) < 2 ?timeFormat(new Date(message.time)) :`${dateFormat(message.time)} ${timeFormat(new Date(message.time))}`}
+
+            <p className={message.name === loggedUserName ? "messages__user-status--time2" : "othersTime"}>
+              {`${timeFormat(new Date(message.time))}`}
+
             </p>
 
-            {message.name === "naphee" && (
+            {message.name === loggedUserName && (
               <>
                 <GiIcons.GiCheckMark className="fa-check icon" />
                 <GiIcons.GiCheckMark className="fa-check second" />
@@ -63,4 +71,3 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
 };
 
 export default ChatList;
-

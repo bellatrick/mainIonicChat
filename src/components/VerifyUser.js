@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./VerifyUser.css";
 import { IonSpinner } from "@ionic/react";
-
+import {Button} from '@material-ui/core'
 function VerifyUser() {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -41,9 +41,8 @@ function VerifyUser() {
           }
         })
         .then((data) => {
-          console.log(data); 
-          data.status==='success' &&setVerified(true)   
-          history.replace("/login");
+          console.log(data);        
+          history.replace("/verifySuccess");
         })
         .catch((err) => {
           console.log(err);
@@ -52,7 +51,7 @@ function VerifyUser() {
         });
   
   };
- 
+  
   return (
     <div className="head">
       <h1 className="head__header">OTP Verification</h1>
