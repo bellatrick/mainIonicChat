@@ -43,6 +43,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
             onClick={() => {
               if (!disableFunctions) setOpenEmoji((prev) => !prev);
             }}
+
           />
         </span>
         <form
@@ -97,6 +98,7 @@ const ChatInput = ({ sendMessage, disableFunctions }) => {
             title="Pick your emoji…"
             emoji="point_up"
             onSelect={(emoji) => {
+              console.log("yes")
               console.log(emoji.native);
               setInputValue(inputValue + emoji.native);
             }}
