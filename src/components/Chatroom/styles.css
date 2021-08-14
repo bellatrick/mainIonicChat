@@ -331,6 +331,8 @@ html {
 .emoji-mart {
   display: flex;
   flex-direction: column;
+  cursor:pointer;
+  z-index:9999
 }
 .emoji-mart-bar {
   margin-top: 20px;

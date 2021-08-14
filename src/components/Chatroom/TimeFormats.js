@@ -32,3 +32,4 @@ export const dateFormat = (string) => {
     newDate.getFullYear();
   return returnedDate;
 };
+

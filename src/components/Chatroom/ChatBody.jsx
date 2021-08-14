@@ -44,11 +44,11 @@ const ChatBody = ({
           messagesArr.push(messages[message]);
           setLoadedMessages([...messagesArr])
           setdisableFunctions(false);
+          setLoadedMessages([...messagesArr])
           scrollToBottom();
           setFailedToLoad(false)
         });
-      
-       
+
         setFailedToLoad(false)
       }).catch(err => { console.log(err) 
         setFailedToLoad(true) });
