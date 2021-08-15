@@ -22,28 +22,28 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
   };
   return (
     <div>
-      {filteredMessages.map((message, i) => (
+      {filteredMessages.map((message) => (
         <div
           className={
             message.name === "naphee"
               ? "messages__user user-callout"
               : "messages__users--01 callout"
           }
-          key={i}
+          key={message._id}
         >
-          <p className="messages__users--01-id">{message.name}</p>
-          {message.imageUrl && (
-            <span onClick={() => viewPicHandler(message.imageUrl)} className = "cursor">
-              <IonImg src={message.imageUrl} />
+          <p className="messages__users--01-id">{message.user.username}</p>
+          {message.image && (
+            <span onClick={() => viewPicHandler(message.image)} className = "cursor">
+              <IonImg src={message.image} />
             </span>
           )}
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
             <p className="messages__user-status--time2">
-              {differenceInDates(message.time) < 2 ?timeFormat(new Date(message.time)) :`${dateFormat(message.time)} ${timeFormat(new Date(message.time))}`}
+              {differenceInDates(message.createdAt) < 2 ?timeFormat(new Date(message.createdAt)) :`${dateFormat(message.createdAt)} ${timeFormat(new Date(message.createdAt))}`}
             </p>
 
-            {message.name === "naphee" && (
+            {message.user.username === "naphee" && (
               <>
                 <GiIcons.GiCheckMark className="fa-check icon" />
                 <GiIcons.GiCheckMark className="fa-check second" />

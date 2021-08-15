@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState} from "react";
 import "./styles.css";
-import { db } from "./firebase.js";
+// import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
@@ -25,27 +25,30 @@ const ChatBody = ({
   const fetchMessages = () => {
     setFailedToLoad(false)
     fetch(
-      "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
+      "https://anter-chat-app.herokuapp.com/api/v1/message"
     )
       .then((response) => response.json())
-      .then((messages) => {
-        
-        console.log("supposed")
-        const messagesArr = [];
-        if (!messages || messages.length === 0) {
-          setLoadedMessages([]);
-          console.log("no messages")
-          setdisableFunctions(false)
-          return;
-        }
-        const messagesIDs = Object.keys(messages);
-        messagesIDs.forEach((message, index) => {
-          messagesArr.push(messages[message]);
-          setdisableFunctions(false);
-          setLoadedMessages([...messagesArr])
-          scrollToBottom();
-          setFailedToLoad(false)
-        });
+      .then((incomingData) => {
+        // const messagesArr = [];
+        // if (!messages || messages.length === 0) {
+        //   setLoadedMessages([]);
+        //   console.log("no messages")
+        //   setdisableFunctions(false)
+        //   return;
+        // }
+        // const messagesIDs = Object.keys(messages);
+        // messagesIDs.forEach((message, index) => {
+        //   messagesArr.push(messages[message]);
+        //   setdisableFunctions(false);
+        //   setLoadedMessages([...messagesArr])
+        //   scrollToBottom();
+        //   setFailedToLoad(false)
+        // });
+        const loadedData = [...incomingData.data]
+        setdisableFunctions(false);
+        setLoadedMessages(loadedData)
+        scrollToBottom();
+        setFailedToLoad(false)
        
         
         setFailedToLoad(false)
@@ -58,15 +61,15 @@ const ChatBody = ({
 
   useEffect(() => {
     if (setScroll) scrollToBottom();
-    db.ref("messages").on("value", (snapshot) => {
-      let messagesArr = [];
-      snapshot.forEach((snap) => {
-        messagesArr.push(snap.val());
-        setLoadedMessages([...messagesArr]);
-        setdisableFunctions(false);
-      });
-      scrollToBottom();
-    });
+    // db.ref("messages").on("value", (snapshot) => {
+    //   let messagesArr = [];
+    //   snapshot.forEach((snap) => {
+    //     messagesArr.push(snap.val());
+    //     setLoadedMessages([...messagesArr]);
+    //     setdisableFunctions(false);
+    //   });
+    //   scrollToBottom();
+    // });
   });
   const filteredMessages =
     loadedMessages.length !== 0

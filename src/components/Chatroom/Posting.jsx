@@ -5,6 +5,7 @@ import "./styles.css";
 import { IonImg } from "@ionic/react";
 import * as AiIcons from "react-icons/ai";
 import Notification from "./loadersAndNotifications/Notification";
+import {timeFormat} from "./TimeFormats"
 
 const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
   const [isPosting, setIsPosting] = useState(true);
@@ -19,19 +20,28 @@ const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
     e.preventDefault();
     setIsPosting(true);
     const message = captionRef.current.value;
-    const time = Date();
+    const time = new Date();
     const messageObject = {
-      name: "naphee",
       message: message,
-      time: time,
-      imageUrl: photo,
+      createdAt: timeFormat(time),
+      image: photo.webviewPath,
     };
+
+    const postObject = {
+      message : message,
+      image: [
+        {
+          filepath: photo.filepath,
+          webViewPath: photo.webviewPath
+        }
+      ]
+    }
     setLoadedMessages([...loadedMessages, messageObject]);
     fetch(
-      "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
+      "https://anter-chat-app.herokuapp.com/api/v1/message",
       {
         method: "POST",
-        body: JSON.stringify(messageObject),
+        body: JSON.stringify(postObject),
         headers: {
           "Content-Type": "application/json",
         },
@@ -51,7 +61,7 @@ const Posting = ({ photo, closePost, setLoadedMessages, loadedMessages }) => {
           onClick={closePost}
         />
         <div className="post__image">
-          <IonImg src={photo} />
+          <IonImg src={photo.webviewPath} />
         </div>
 
         <div className="post__form">

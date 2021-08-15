@@ -8,7 +8,7 @@ const PhotoProvider = ({ children }) => {
   const [photoToPost, setPhotoToPost] = useState(null);
 
   const postPhoto = (photo) => {
-    setPhotoToPost(photo.webviewPath);
+    setPhotoToPost(photo);
     history.push("/chatroom");
   };
 

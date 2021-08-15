@@ -25,24 +25,18 @@ const ChatComponent = () => {
       return;
     }
     const time = new Date();
-
-    const messageObject = {
-      name: "naphee",
-      message: message,
-      time: time,
-    };
+    
     setLoadedMessages([...loadedMessages, {
-      name: "naphee",
       message: message,
-      time:timeFormat(time)
+      createdAt:timeFormat(time)
     }]);
     setScroll(true);
     const pushNewMessage = () => {
       fetch(
-        "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
+        "https://anter-chat-app.herokuapp.com/api/v1/message",
         {
           method: "POST",
-          body: JSON.stringify(messageObject),
+          body: JSON.stringify({message:message}),
           headers: {
             "Content-Type": "application/json",
           },
