@@ -7,24 +7,20 @@ import Preview from "../ImagePreview";
 import { Store } from "../../utils/Store";
 import { timeFormat, dateFormat, differenceInDates } from "./TimeFormats";
 
-
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
 
   const { state } = useContext(Store);
 
-  const [loggedUserName, setloggedUserName] = useState('')
+  const [loggedUserName, setloggedUserName] = useState("");
 
   useEffect(() => {
     if (state.user) {
-     setloggedUserName(state.user.username)
+      setloggedUserName(state.user.username);
     }
-
   }, []);
 
-
-  const loggedUserName = state.user.username;
   const viewPicHandler = (url) => {
     setViewPic(true);
     setPic(url);
@@ -35,33 +31,31 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
   };
   return (
     <div>
-      {filteredMessages.map((message, i) => (
+      {filteredMessages.map((message) => (
         <div
           className={
             message.name === loggedUserName
               ? "messages__user user-callout"
               : "messages__users--01 callout"
           }
-          key={i}
+          key={message._id}
         >
-          <p className="messages__users--01-id">{message.name}</p>
-          {message.imageUrl && (
+          <p className="messages__users--01-id">{message.user.username}</p>
+          {message.image && (
             <span
-              onClick={() => viewPicHandler(message.imageUrl)}
+              onClick={() => viewPicHandler(message.image)}
               className="cursor"
             >
-              <IonImg src={message.imageUrl} alt='chatimage'/>
+              <IonImg src={message.image} />
             </span>
           )}
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
-
-            <p className={message.name === loggedUserName ? "messages__user-status--time2" : "othersTime"}>
-              {`${timeFormat(new Date(message.time))}`}
-
+            <p className="messages__user-status--time2">
+              {timeFormat(new Date(message.createdAt))}
             </p>
 
-            {message.name === loggedUserName && (
+            {message.user.username === "naphee" && (
               <>
                 <GiIcons.GiCheckMark className="fa-check icon" />
                 <GiIcons.GiCheckMark className="fa-check second" />
