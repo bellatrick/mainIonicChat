@@ -34,7 +34,7 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
       {filteredMessages.map((message) => (
         <div
           className={
-            message.name === loggedUserName
+            message.name === "naphee"
               ? "messages__user user-callout"
               : "messages__users--01 callout"
           }
