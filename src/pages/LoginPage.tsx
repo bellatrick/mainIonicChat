@@ -7,9 +7,9 @@ const LoginPage: React.FC = () => {
   
   return (
     <IonPage className='loginPage'>
-     
-      <SignInForm/>
-     
+     <IonContent>
+     <SignInForm/>
+     </IonContent>   
     </IonPage>
   );
 };

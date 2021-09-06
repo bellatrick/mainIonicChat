@@ -11,22 +11,21 @@ import { Storage } from "@capacitor/storage";
 import { Capacitor } from "@capacitor/core";
 import { useHistory } from "react-router-dom";
 
-const PHOTO_STORAGE = "photos";
-
+const PHOTO_STORAGEE = "photos";
 export function usePhotoGallery() {
   const history = useHistory();
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
   const [singlePhoto, setSinglePhoto] = useState<singleUserPhoto[]>([]);
   useEffect(() => {
     const loadSaved = async () => {
-      const { value } = await Storage.get({ key: PHOTO_STORAGE });
-
+      const { value } = await Storage.get({ key: PHOTO_STORAGEE })
       const photosInStorage = (value ? JSON.parse(value) : []) as UserPhoto[];
       const singlePhotosInStorage = (
         value ? JSON.parse(value) : []
       ) as singleUserPhoto[];
-      // If running on the web...
-      if (!isPlatform("hybrid")) {
+      // If running on the web... 
+     try{ if(!photosInStorage) return
+      if(!isPlatform('hybrid')){
         for (let photo of photosInStorage) {
           const file = await Filesystem.readFile({
             path: photo.filepath,
@@ -38,8 +37,10 @@ export function usePhotoGallery() {
         }
       }
       setSinglePhoto(singlePhotosInStorage);
-      setPhotos(photosInStorage);
-    };
+      setPhotos(photosInStorage)}catch(err){
+        console.log(err)
+      }
+    }
     loadSaved();
   }, []);
 
@@ -49,6 +50,8 @@ export function usePhotoGallery() {
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
       quality: 100,
+      height:1024,
+      width:768
     });
   
     const fileName = new Date().getTime() + ".jpeg";
@@ -57,7 +60,7 @@ export function usePhotoGallery() {
     const newPhotos = [savedFileImage, ...photos];
     setSinglePhoto(singlePic);
     setPhotos(newPhotos);
-    Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+    Storage.set({ key: PHOTO_STORAGEE, value: JSON.stringify(newPhotos) });
     history.push("/gallery");
   } catch(err){
     console.log(err)
@@ -105,7 +108,7 @@ export function usePhotoGallery() {
     const newPhotos = photos.filter((p) => p.filepath !== photo.filepath);
 
     // Update photos array cache by overwriting the existing photo array
-    Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+    Storage.set({ key: PHOTO_STORAGEE, value: JSON.stringify(newPhotos) });
 
     // delete photo file from filesystem
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf("/") + 1);

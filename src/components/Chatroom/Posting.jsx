@@ -35,7 +35,7 @@ const Posting = ({
     };
     setLoadedMessages([...loadedMessages, messageObject]);
     fetch(
-      "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
+      "https://react-chat-6b90f-default-rtdb.firebaseio.com/messages.json",
       {
         method: "POST",
         body: JSON.stringify(messageObject),

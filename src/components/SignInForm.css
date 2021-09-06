@@ -2,16 +2,28 @@
     display: block;
     width: 20rem;
     height: 5rem;
-    background-color: #18c918;
+    background-color: #066b06;
     color: white;
     font-weight: 500;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     border: none;
     border-radius: .8rem; 
 }
-.formSec h1{
+.formSec h2{
     text-align: center;
+    color: rgb(224, 245, 224);
 } 
+.formSec{
+    display: flex;
+    margin-top: 20rem;
+    height: 50%;
+    border-radius: 15%;
+    background-color: #415341;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
 .option-text {
   
     color: white;

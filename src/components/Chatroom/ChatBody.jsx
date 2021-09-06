@@ -4,10 +4,6 @@ import { db } from "./firebase.js";
 import Spinner from "./loadersAndNotifications/Spinner";
 import ChatList from "./ChatList";
 import Waiting from "./loadersAndNotifications/Waiting";
-import {dateFormat, timeFormat} from "./TimeFormats"
-import { Store } from "../../utils/Store";
-
-
 
 const ChatBody = ({
   loadedMessages,
@@ -18,15 +14,14 @@ const ChatBody = ({
 }) => {
   const messageEndRef = useRef(null);
   const [failedToLoad, setFailedToLoad] = useState(false)
-  const {state} = useContext(Store)
-   console.log(state.user)
+
   const scrollToBottom = () => {
     messageEndRef.current && messageEndRef.current.scrollIntoView();
   };
   const fetchMessages = () => {
     setFailedToLoad(false)
     fetch(
-      "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json"
+      "https://react-chat-6b90f-default-rtdb.firebaseio.com/messages.json"
     )
       .then((response) => response.json())
       .then((messages) => {
@@ -58,23 +53,28 @@ const ChatBody = ({
   }, []);
 
   useEffect(() => {
-    if (setScroll) scrollToBottom();
-    db.ref("messages").on("value", (snapshot) => {
+    if (setScroll) scrollToBottom(); 
+      const unsubscribe= db.ref("messages").on("value", (snapshot) => {
       let messagesArr = [];
-      snapshot.forEach((snap) => {
+      snapshot?.forEach((snap) => {
         messagesArr.push(snap.val());
-        setLoadedMessages([...messagesArr]);
+        setLoadedMessages(filteredMessages([...messagesArr]));
         setdisableFunctions(false);
       });
       scrollToBottom();
     });
+    return ()=>{
+      unsubscribe()
+    }
   }, []);
-  const filteredMessages =
-    loadedMessages.length !== 0
-      ? loadedMessages.sort(function (a, b) {
-        return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
-      })
-      : [];
+  const filteredMessages =(messages)=>{  
+   if( messages.length !== 0)
+     return messages.sort(function (a, b) {
+      return Object.values(a.time) < Object.values(b.time) ? -1 : 1;
+    })
+    else return []
+  }
+   
   return (
     <div>
       {disableFunctions && <Spinner message="Loading chats..." />}
@@ -82,7 +82,7 @@ const ChatBody = ({
 
       {!disableFunctions && (
         <ChatList
-          filteredMessages={filteredMessages}
+          filteredMessages={loadedMessages}
           messageEndRef={messageEndRef}
         />
       )}

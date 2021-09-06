@@ -101,7 +101,7 @@ html {
   margin: 2rem 5rem 1rem 0.2rem;
   margin-left: auto;
   /* padding: 0.8rem; */
-  padding: 15px;
+  padding: 20px;
   padding-right: 10rem;
   padding-bottom: 2rem;
   border-radius: 1rem 1rem 1rem 1rem;
@@ -255,6 +255,9 @@ html {
   background-color: rgba(0, 0, 0, 0.2px);
   z-index: 9999;
 }
+ion-content{
+  background:white;
+}
 .post__modal {
   background-color: black;
   color: gray;
@@ -273,7 +276,7 @@ html {
   z-index: 9999;
 }
 .chat__input{
-  background-color: rgb(248, 242, 242);
+  background-color: grey;
 }
 .post__image {
   padding: 0 auto;

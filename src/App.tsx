@@ -32,7 +32,7 @@ import Verification from "./pages/Verification";
 import VerificationMessage from "./pages/VerificationMessage";
 import PhotoProvider from "./contexts/photoContext";
 const App: React.FC = () => {
-  const { state } = useContext(Store);
+  const { user } = useContext(Store);
 
   return (
     <IonApp>
@@ -49,7 +49,7 @@ const App: React.FC = () => {
           <Route
             path="/"
             render={() =>
-              state.user ? <Redirect to="/chats" /> : <Redirect to="/login" />
+              user ? <Redirect to="/chats" /> : <Redirect to="/login" />
             }
             exact={true}
           />
