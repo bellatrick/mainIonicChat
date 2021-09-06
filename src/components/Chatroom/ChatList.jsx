@@ -7,6 +7,7 @@ import Preview from "../ImagePreview";
 import { Store } from "../../utils/Store";
 import { timeFormat, dateFormat, differenceInDates } from "./TimeFormats";
 
+
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
@@ -22,6 +23,8 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
   
 }, []);
 
+
+ 
   const viewPicHandler = (url) => {
     setViewPic(true);
     setPic(url);
@@ -52,8 +55,10 @@ const ChatList = ({ filteredMessages, messageEndRef }) => {
           )}
           <p className="messages__users--01-content">{message.message}</p>
           <div className="messages__user-status user-callout">
+
             <p className={message.name === loggedUserName ? "messages__user-status--time2" : "othersTime"}>
               {`${timeFormat(new Date(message.time))}`}
+
             </p>
 
             {message.name === loggedUserName && (
