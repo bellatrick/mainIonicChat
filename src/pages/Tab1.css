@@ -1,5 +1,5 @@
 .loginPage{
-    --background: white;
+    --background: rgb(34, 59, 34)!important;
 }
 
 .chat-aside{
@@ -11,4 +11,7 @@
      margin-right: 20px;
      font-size: 1.1rem;
      font-weight: bold;
+  }
+  ion-content{
+    --background:rgb(34, 59, 34) !important;
   }

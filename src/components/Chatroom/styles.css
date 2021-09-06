@@ -90,7 +90,7 @@ html {
   box-shadow: 0 0 10px #c1c1c1;
   max-width: 300px;
   margin-right: auto;
-  padding: 15px;
+  padding: 25px;
   width: fit-content;
   color: darkslategray !important;
 }
@@ -101,7 +101,7 @@ html {
   margin: 2rem 5rem 1rem 0.2rem;
   margin-left: auto;
   /* padding: 0.8rem; */
-  padding: 20px;
+  padding: 15px;
   padding-right: 10rem;
   padding-bottom: 2rem;
   border-radius: 1rem 1rem 1rem 1rem;
@@ -115,7 +115,7 @@ html {
   position: absolute;
   left: -1.5px;
   top: -0.5px;
-  width: 15px;
+  width: 30px;
   height: 10px;
   transform: skew(15deg);
   background: white;
@@ -285,7 +285,7 @@ ion-content{
   max-width: 100px;
 }
 .post__form {
-  width: 80%;
+  width: 50%;
   height: 30px;
   display: flex;
   margin: 0px auto;

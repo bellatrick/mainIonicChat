@@ -63,8 +63,8 @@ const Posting = ({
 
         <div className="post__form">
           <form onSubmit={submitPost}>
-            <input placeholder="Say something..." ref={captionRef} />
-            <button className="post__button" onClick={submitPost}>
+            <input style={{width:'80%'}} placeholder="Say something..." ref={captionRef} />
+            <button className="post__button" onClick={closePost}>
               Post
             </button>
           </form>

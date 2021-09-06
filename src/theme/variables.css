@@ -3,7 +3,7 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 ion-content{
-  --background:#fffff
+  --background:grey;
 }
 :root {
   /** primary **/

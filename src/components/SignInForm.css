@@ -2,10 +2,10 @@
     display: block;
     width: 20rem;
     height: 5rem;
-    background-color: #066b06;
-    color: white;
+    background-color: white !important;
+    color: rgb(13, 175, 81) !important;
     font-weight: 500;
-    font-size: 1.4rem;
+    font-size: 1rem;
     border: none;
     border-radius: .8rem; 
 }
@@ -15,10 +15,11 @@
 } 
 .formSec{
     display: flex;
-    margin-top: 20rem;
+    margin: 20rem auto;
     height: 50%;
+    width:50%;
     border-radius: 15%;
-    background-color: #415341;
+    background-color: #18c918;
     flex-direction: column;
     align-items: center;
     justify-content: center;
