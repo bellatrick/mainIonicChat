@@ -13,15 +13,16 @@ const ChatComponent = () => {
   const [scroll, setScroll] = useState(false);
   const [disableFunctions, setdisableFunctions] = useState(true);
   const { photoToPost, setPhotoToPost } = useContext(PhotoContext);
-  const { state } = useContext(Store);
+  const { state, user } = useContext(Store);
   const [loggedUserName, setloggedUserName] = useState('')
 
   useEffect(() => {
-    if (state.user) {
-     setloggedUserName(state.user.username)
-     console.log(state.user.username)
-    }
-
+  
+      if (user) {
+      setloggedUserName(user.displayName)
+       
+       }
+    
   }, []);
 
   const closePost = () => {
@@ -48,10 +49,10 @@ const ChatComponent = () => {
         time: time,
       },
     ]);
-    setScroll(true);
+    //setScroll(true);
     const pushNewMessage = () => {
       fetch(
-        "https://chatproject-2db75-default-rtdb.firebaseio.com/messages.json",
+        "https://react-chat-6b90f-default-rtdb.firebaseio.com/messages.json",
         {
           method: "POST",
           body: JSON.stringify(messageObject),

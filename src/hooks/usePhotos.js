@@ -11,7 +11,7 @@ import { Storage } from "@capacitor/storage";
 import { Capacitor } from "@capacitor/core";
 import { useHistory } from "react-router-dom";
 
-const PHOTO_STORAGE = "photos";
+const PHOTO_STORAGEE = "photos";
 const SINGLE_STORAGE = "singles";
 export function usePhotoGallery() {
   const history = useHistory();
@@ -23,12 +23,14 @@ export function usePhotoGallery() {
     timeStamp: null,
   });
   useEffect(() => {
-    const loadSaved = async () => {
-      const { value } = await Storage.get({ key: PHOTO_STORAGE });
+    
+      const loadSaved = async () => {
+      const { value } = await Storage.get({ key: PHOTO_STORAGEE });
       const { valueSingle } = await Storage.get({ key: SINGLE_STORAGE });
       const photosInStorage = value ? JSON.parse(value) : [];
       const singlePhotosInStorage = valueSingle ? JSON.parse(valueSingle) : {};
-
+      try{
+      if(!photosInStorage) return
       if (!isPlatform("hybrid")) {
         for (let photo of photosInStorage) {
           const file = await Filesystem.readFile({
@@ -46,7 +48,8 @@ export function usePhotoGallery() {
         timeStamp: new Date().toISOString(),
       });
       setPhotos(photosInStorage);
-    };
+    }catch(err){console.log(err)}}
+    
     loadSaved();
   }, []);
 
@@ -65,7 +68,7 @@ export function usePhotoGallery() {
     });
     setPhotos(newPhotos);
     Storage.set({ key: SINGLE_STORAGE, value: JSON.stringify(singlePhoto) });
-    Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+    Storage.set({ key: PHOTO_STORAGEE, value: JSON.stringify(newPhotos) });
     history.push("/gallery");
   }catch(err){
     console.log(err)
@@ -104,7 +107,7 @@ export function usePhotoGallery() {
   const deletePhoto = async (photo) => {
     const newPhotos = photos.filter((p) => p.filepath !== photo.filepath);
 
-    Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+    Storage.set({ key: PHOTO_STORAGEE, value: JSON.stringify(newPhotos) });
 
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf("/") + 1);
     await Filesystem.deleteFile({

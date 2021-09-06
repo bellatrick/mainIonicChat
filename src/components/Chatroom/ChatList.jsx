@@ -10,15 +10,17 @@ import { timeFormat, dateFormat, differenceInDates } from "./TimeFormats";
 const ChatList = ({ filteredMessages, messageEndRef }) => {
   const [viewPic, setViewPic] = useState(false);
   const [pic, setPic] = useState(null);
-  const { state } = useContext(Store);
+  const { user } = useContext(Store);
   const [loggedUserName, setloggedUserName] = useState('')
 
   useEffect(() => {
-    if (state.user) {
-     setloggedUserName(state.user.username)
-    }
-
-  }, []);
+  
+    if (user) {
+    setloggedUserName(user.displayName)
+     // console.log(user.username)
+     }
+  
+}, []);
 
   const viewPicHandler = (url) => {
     setViewPic(true);

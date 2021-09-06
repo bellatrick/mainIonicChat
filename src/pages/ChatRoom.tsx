@@ -4,11 +4,22 @@ import "../components/Chatroom/styles.css";
 import ChatComponent from "../components/Chatroom/ChatComponent";
 import {useHistory} from 'react-router-dom'
 import { Store } from "../utils/Store";
-import {useContext} from 'react'
+
+import {auth} from '../components/Chatroom/firebase'
+import {useContext, useEffect} from 'react'
 const ChatRoom: React.FC = () => {
   const history = useHistory()
 
-  const {dispatch}= useContext(Store)
+  const { dispatch, user}= useContext(Store)
+  const handleLogout= async()=>{
+    await auth.signOut()
+    history.push('/login')
+}
+  useEffect(()=>{
+     if(!user) 
+     history.push('/login')
+  },[])
+
   return (
     <IonPage>
       <IonToolbar>
@@ -16,15 +27,11 @@ const ChatRoom: React.FC = () => {
         <IonTitle>ChatRoom</IonTitle>
 
         <div className='chat-aside'>
-        <Button onClick={()=> history.replace('/gallery')}>Gallery</Button>
+        <Button onClick={()=> history.push('/gallery')}>Gallery</Button>
         <Button onClick={()=> {
-          localStorage.removeItem('user')
-          history.replace('/login')
+          handleLogout()
           dispatch({type:'LOGOUT'})}}>Logout</Button>
         </div>
-       
-
-        {/* <button onClick={() => takePhoto()}>Post a picture</button> */}
       </IonHeader>
       </IonToolbar>
       

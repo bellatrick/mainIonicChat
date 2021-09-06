@@ -47,6 +47,7 @@ const PhotoPage: React.FC = () => {
                 <IonIcon
                   onClick={() => setPhotoToDelete(photo)}
                   icon={trash}
+                  size='large'
                 ></IonIcon>
               </IonCol>
             ))}

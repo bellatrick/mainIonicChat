@@ -1,12 +1,12 @@
 import firebase from "firebase";
 const firebaseConfig = {
-  apiKey: "AIzaSyBWF07LMIA6ZHSfXQriJY2yV8RcdILTUIo",
-  authDomain: "chatproject-2db75.firebaseapp.com",
-  databaseURL: "https://chatproject-2db75-default-rtdb.firebaseio.com",
-  projectId: "chatproject-2db75",
-  storageBucket: "chatproject-2db75.appspot.com",
-  messagingSenderId: "178038971761",
-  appId: "1:178038971761:web:ffc44b43e0133542982ad0",
+  apiKey: "AIzaSyBAcB-BJDKlLxKwV7CMUXQ8tlix_JiQEpI",
+  authDomain: "react-chat-6b90f.firebaseapp.com",
+  projectId: "react-chat-6b90f",
+  storageBucket: "react-chat-6b90f.appspot.com",
+  messagingSenderId: "404304941640",
+  databaseURL: "https://react-chat-6b90f-default-rtdb.firebaseio.com",
+  appId: "1:404304941640:web:d6a33e9764e9ff0de77e7d"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -16,3 +16,4 @@ firebase.initializeApp(firebaseConfig);
 // };
 
 export const db = firebase.database();
+export const auth= firebase.auth()
